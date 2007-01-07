@@ -42,12 +42,12 @@ public class JobListTest extends TestCase {
 		DownloadJob job2 = (DownloadJob) context.getBean("DownloadJob");
 		
 		job1.setState(DownloadJob.STATE_OPEN);
-		job1.setPriority(10);
+		job1.setPriority(8);
 		job1.setUrl(new URL("http://test.de"));
 		job1.setIgnoreFilter(true);
 		
 		job2.setState(DownloadJob.STATE_OPEN);
-		job2.setPriority(8);
+		job2.setPriority(10);
 		job2.setUrl(new URL("http://test2.de"));
 		job2.setIgnoreFilter(true);
 		
@@ -58,7 +58,7 @@ public class JobListTest extends TestCase {
 		openJob = dispatcher.getJobManager().getNextOpenJob();
 		assertTrue(openJob == job2);
 		
-		job1.setPriority(5);
+		job1.setPriority(15);
 		openJob = dispatcher.getJobManager().getNextOpenJob();
 		assertTrue(openJob == job1);
 		
