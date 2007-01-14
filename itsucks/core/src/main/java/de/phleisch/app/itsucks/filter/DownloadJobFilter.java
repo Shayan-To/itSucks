@@ -76,10 +76,8 @@ public class DownloadJobFilter implements JobFilterInterface {
 			downloadJob.setSaveToFile(save);
 		}
 		
-		//if ignore filter is active, do not set the new state
-		if(!pJob.isIgnoreFilter()) {
-			downloadJob.setState(state);
-		}
+		downloadJob.setState(state);
+		
 		return pJob;
 	}
 
