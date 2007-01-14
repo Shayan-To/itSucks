@@ -13,6 +13,8 @@ import java.awt.Frame;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import de.phleisch.app.itsucks.gui.panel.LogPanel;
+
 
 public class LogDialog extends JDialog {
 

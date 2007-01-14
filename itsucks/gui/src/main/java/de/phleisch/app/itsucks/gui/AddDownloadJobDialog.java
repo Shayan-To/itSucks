@@ -14,10 +14,15 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
+import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
 
 
 public class AddDownloadJobDialog extends JDialog {
@@ -39,6 +44,10 @@ public class AddDownloadJobDialog extends JDialog {
 
 	private JButton jButtonCancel = null;
 
+	private JTabbedPane jTabbedPane = null;
+
+	private AdvancedFilterOverviewPanel advancedFilterOverviewPanel = null;
+
 	/**
 	 * @param owner
 	 */
@@ -55,8 +64,9 @@ public class AddDownloadJobDialog extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(407, 684);
+		this.setSize(407, 566);
 		this.setContentPane(getJContentPane());
+		
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle("Add a download...");
 		this.setResizable(true);
@@ -69,6 +79,11 @@ public class AddDownloadJobDialog extends JDialog {
 		
 		AddDownloadJobBean job = this.downloadJobMainPanel.buildDownloadJob();
 		if(job == null) return;
+		
+		JobFilterInterface advancedFilter = 
+			this.advancedFilterOverviewPanel.buildAdvancedFilter();
+		
+		job.addFilter(advancedFilter);
 		
 		mDownloadJobManager.addDownload(job.getDownload(), job.getFilterList());
 		
@@ -98,7 +113,7 @@ public class AddDownloadJobDialog extends JDialog {
 		if (jContentPane == null) {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
-			jContentPane.add(getDownloadJobMainPanel(), BorderLayout.CENTER);
+			jContentPane.add(getJTabbedPane(), BorderLayout.CENTER);
 			jContentPane.add(getJPanelAction(), BorderLayout.SOUTH);
 		}
 		return jContentPane;
@@ -164,6 +179,32 @@ public class AddDownloadJobDialog extends JDialog {
 			});
 		}
 		return jButtonCancel;
+	}
+
+	/**
+	 * This method initializes jTabbedPane	
+	 * 	
+	 * @return javax.swing.JTabbedPane	
+	 */
+	private JTabbedPane getJTabbedPane() {
+		if (jTabbedPane == null) {
+			jTabbedPane = new JTabbedPane();
+			jTabbedPane.addTab("Basic", null, getDownloadJobMainPanel(), null);
+			jTabbedPane.addTab("Advanced", null, getAdvancedFilterOverviewPanel(), null);
+		}
+		return jTabbedPane;
+	}
+
+	/**
+	 * This method initializes advancedFilterOverviewPanel	
+	 * 	
+	 * @return de.phleisch.app.itsucks.gui.AdvancedFilterOverviewPanel	
+	 */
+	private AdvancedFilterOverviewPanel getAdvancedFilterOverviewPanel() {
+		if (advancedFilterOverviewPanel == null) {
+			advancedFilterOverviewPanel = new AdvancedFilterOverviewPanel(this);
+		}
+		return advancedFilterOverviewPanel;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

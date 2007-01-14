@@ -7,6 +7,7 @@
 
 package de.phleisch.app.itsucks.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.phleisch.app.itsucks.filter.JobFilterInterface;
@@ -28,6 +29,13 @@ public class AddDownloadJobBean {
 	}
 	public void setFilterList(List<JobFilterInterface> pFilterList) {
 		mFilterList = pFilterList;
+	}
+	public void addFilter(JobFilterInterface pAdvancedFilter) {
+		
+		List<JobFilterInterface> newList = new ArrayList<JobFilterInterface>(getFilterList());
+		newList.add(pAdvancedFilter);
+		
+		setFilterList(newList);
 	}
 	
 }

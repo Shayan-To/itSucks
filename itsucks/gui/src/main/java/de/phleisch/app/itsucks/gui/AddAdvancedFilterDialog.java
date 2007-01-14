@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.panel.AdvancedFilterPanel;
 
 public class AddAdvancedFilterDialog extends JDialog {
 

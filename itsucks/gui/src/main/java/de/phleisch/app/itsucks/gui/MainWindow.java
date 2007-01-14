@@ -40,6 +40,7 @@ import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class MainWindow implements AddDownloadJobInterface {
@@ -417,7 +418,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		Component selectedComponent = jTabbedPane.getSelectedComponent();
 		if(selectedComponent == null) return;
 		
-		DownloadStatusPane pane = (DownloadStatusPane) selectedComponent;
+		DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
 		DispatcherThread dispatcher = pane.getDispatcher();
 		
 		dispatcher.stop();
@@ -436,7 +437,7 @@ public class MainWindow implements AddDownloadJobInterface {
 	 */
 	public void addDownload(DownloadJob pDownload, List<JobFilterInterface> pFilterList) {
 		
-		DownloadStatusPane pane = new DownloadStatusPane();
+		DownloadStatusPanel pane = new DownloadStatusPanel();
 		
 		DispatcherThread dispatcher = (DispatcherThread) 
 			SpringContextSingelton.getApplicationContext().getBean("DispatcherThread");
