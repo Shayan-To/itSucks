@@ -39,6 +39,14 @@ public class JobManager {
 	public void addJob(Job pJob) {
 		Job job = pJob;
 
+		if(!job.isIgnoreFilter()) {
+			job = filterJob(job);
+		}
+		
+		addJobUnfiltered(job);
+	}
+
+	private Job filterJob(Job job) {
 		try {
 		
 			boolean filterFound = false;
@@ -59,7 +67,7 @@ public class JobManager {
 			job.setState(Job.STATE_ERROR);
 		}
 		
-		addJobUnfiltered(job);
+		return job;
 	}
 
 	public Job getNextOpenJob() {
