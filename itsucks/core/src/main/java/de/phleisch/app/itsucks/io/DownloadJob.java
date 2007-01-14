@@ -198,4 +198,9 @@ public class DownloadJob extends Job {
 		return mDataRetriever;
 	}
 
+	@Override
+	public String toString() {
+		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";
+	}
+
 }
