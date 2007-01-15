@@ -13,7 +13,6 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.Enumeration;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;

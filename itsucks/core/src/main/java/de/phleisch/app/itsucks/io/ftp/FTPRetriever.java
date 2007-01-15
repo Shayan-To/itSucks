@@ -5,7 +5,9 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.io.ftp;
+
+import de.phleisch.app.itsucks.io.DataRetriever;
 
 
 public class FTPRetriever extends DataRetriever {
@@ -34,7 +36,7 @@ public class FTPRetriever extends DataRetriever {
 	}
 
 	@Override
-	protected String getContentType() {
+	public String getContentType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -40,6 +40,6 @@ public abstract class DataRetriever {
 	protected abstract boolean isDataAvailable() throws Exception;
 	protected abstract void retrieve() throws Exception;
 	protected abstract void disconnect() throws Exception;
-	protected abstract String getContentType();
+	public abstract String getContentType();
 	
 }

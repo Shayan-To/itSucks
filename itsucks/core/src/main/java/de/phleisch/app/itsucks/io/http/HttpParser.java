@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.io.http;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,6 +25,8 @@ import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.io.DataParser;
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 
 public class HttpParser extends DataParser implements ApplicationContextAware {

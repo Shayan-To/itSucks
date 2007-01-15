@@ -83,7 +83,7 @@
 	
 	<bean 
 		id="HttpParser" 
-		class="de.phleisch.app.itsucks.io.HttpParser" 
+		class="de.phleisch.app.itsucks.io.http.HttpParser" 
 		singleton="false">
 		
 	</bean>
@@ -103,7 +103,7 @@
 	
 	<bean 
 		id="HttpRetriever" 
-		class="de.phleisch.app.itsucks.io.AdvancedHttpRetriever" 
+		class="de.phleisch.app.itsucks.io.http.AdvancedHttpRetriever" 
 		singleton="false">
 	</bean>
 	

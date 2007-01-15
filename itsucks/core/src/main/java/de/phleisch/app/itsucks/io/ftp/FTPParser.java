@@ -5,9 +5,10 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.io.ftp;
 
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.io.DataParser;
 
 
 public class FTPParser extends DataParser {

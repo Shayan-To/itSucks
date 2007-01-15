@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 
 
 
+
 public class DataProcessorManager implements ApplicationContextAware {
 
 	private ApplicationContext mContext;

@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.io.http;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +16,9 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import de.phleisch.app.itsucks.io.DataProcessor;
+import de.phleisch.app.itsucks.io.DataRetriever;
 
 
 public class AdvancedHttpRetriever extends DataRetriever {
@@ -80,7 +83,7 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	}
 	
 	@Override
-	protected String getContentType() {
+	public String getContentType() {
 		return mGet.getResponseHeader("Content-Type").getValue();
 		
 		//Content-Length
