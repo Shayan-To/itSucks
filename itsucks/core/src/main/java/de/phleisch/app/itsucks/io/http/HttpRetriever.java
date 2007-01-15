@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.io.DataProcessor;
 import de.phleisch.app.itsucks.io.DataRetriever;
 
-
+@Deprecated
 public class HttpRetriever extends DataRetriever {
 
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
