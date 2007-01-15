@@ -8,8 +8,8 @@
 
 package de.phleisch.app.itsucks.io.http;
 
-import de.phleisch.app.itsucks.io.AbstractMetadata;
+import de.phleisch.app.itsucks.io.Metadata;
 
-public class HttpMetadata extends AbstractMetadata {
+public class HttpMetadata extends Metadata {
 
 }

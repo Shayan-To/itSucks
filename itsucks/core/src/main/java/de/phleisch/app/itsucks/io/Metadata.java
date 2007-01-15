@@ -8,6 +8,6 @@
 
 package de.phleisch.app.itsucks.io;
 
-public abstract class AbstractMetadata {
+public abstract class Metadata {
 
 }
