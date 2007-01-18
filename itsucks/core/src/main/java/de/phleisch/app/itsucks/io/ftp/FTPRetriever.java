@@ -8,6 +8,7 @@
 package de.phleisch.app.itsucks.io.ftp;
 
 import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.Metadata;
 
 
 public class FTPRetriever extends DataRetriever {
@@ -36,15 +37,15 @@ public class FTPRetriever extends DataRetriever {
 	}
 
 	@Override
-	public String getContentType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected boolean isDataAvailable() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Metadata getMetadata() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

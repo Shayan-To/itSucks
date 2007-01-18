@@ -17,6 +17,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.sun.jmx.mbeanserver.MetaData;
+
 import de.phleisch.app.itsucks.io.DataProcessor;
 import de.phleisch.app.itsucks.io.DataRetriever;
 
@@ -27,6 +29,7 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	
 	private static HttpClient mClient;
 	private GetMethod mGet = null;
+	private HttpMetadata mMetadata;
 	
 	{
      	MultiThreadedHttpConnectionManager connectionManager = 
@@ -47,11 +50,18 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		mGet.setFollowRedirects(false);
 		mClient.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " / " + mGet.getStatusCode());
+		
+		//build metadata
+
+		mMetadata = new HttpMetadata();
+		mMetadata.setMimetype(mGet.getResponseHeader("Content-Type").getValue());
+		mMetadata.setStatusCode(mGet.getStatusCode());
+		mMetadata.setConnection(mGet);
 	}
 	
 	@Override
 	protected boolean isDataAvailable() throws Exception {
-		return mGet.getStatusCode() == 200;
+		return mGet.getStatusCode() < 400;
 	}
 	
 	@Override
@@ -82,13 +92,6 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		}
 	}
 	
-	@Override
-	public String getContentType() {
-		return mGet.getResponseHeader("Content-Type").getValue();
-		
-		//Content-Length
-	}
-	
 	private void download() throws Exception {
 		
 		InputStream input = mGet.getResponseBodyAsStream(); 
@@ -116,6 +119,10 @@ public class AdvancedHttpRetriever extends DataRetriever {
 			processor.finish();
 		}
 		
+	}
+
+	public HttpMetadata getMetadata() {
+		return mMetadata;
 	}
 
 }

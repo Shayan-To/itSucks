@@ -20,8 +20,8 @@ public abstract class DataProcessor {
 		super();
 	}
 
-	public abstract boolean supports(Metadata pMetadata);
-	public void init(Metadata pMetadata) throws Exception {}
+	public abstract boolean supports(Job pJob);
+	public void init() throws Exception {}
 	public abstract void process(byte[] pBuffer, int pBytes) throws Exception ;
 	public void finish() throws Exception {}
 

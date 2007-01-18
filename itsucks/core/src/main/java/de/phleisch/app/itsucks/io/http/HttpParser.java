@@ -27,6 +27,7 @@ import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DataParser;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.io.Metadata;
 
 
 public class HttpParser extends DataParser implements ApplicationContextAware {
@@ -48,7 +49,11 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	public boolean supports(Job pJob) {
 		if(pJob instanceof DownloadJob) {
 			DownloadJob downloadJob = (DownloadJob) pJob;
-			if(downloadJob.getDataRetriever().getContentType().startsWith("text/html")) {
+			
+			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
+			
+			if(metadata instanceof HttpMetadata &&
+					((HttpMetadata)metadata).getMimetype().startsWith("text/html")) {
 				return true;
 			}
 		}
@@ -63,6 +68,31 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 		mData = new StringBuilder();
 		initPatterns();
 		mBaseURI = mDataRetriever.getUrl().toURI();
+		
+		//get URL's from header
+		String[] location = 
+			((HttpMetadata)mDataRetriever.getMetadata()).getHeaderField("Location");
+		
+		HashSet<URI> urlList = new HashSet<URI>();
+		
+		if(location != null && location.length > 0) {
+			for (int i = 0; i < location.length; i++) {
+				URI uri = null;
+				try {
+					uri = mBaseURI.resolve(location[i]);
+				} catch(Exception ex) {
+					mLog.warn(ex);
+				}
+				if(uri != null) {
+					//mLog.debug("Add uri: " + uri);
+					urlList.add(uri);
+				}
+			}
+			
+			addNewJobs(urlList.toArray(new URI[urlList.size()]));
+		}
+		
+		
 	}
 	
 	@Override
@@ -71,6 +101,12 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 
 		URI[] uris = extractURLs(mData);
 		
+		addNewJobs(uris);
+		
+		mData = null;
+	}
+
+	private void addNewJobs(URI[] uris) {
 		for (int i = 0; i < uris.length; i++) {
 			URI referenceURI = uris[i];
 			
@@ -88,9 +124,8 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 			job.setParent((DownloadJob)this.getJob());
 			mJobManager.addJob(job);
 		}
-		
-		mData = null;
 	}
+	
 
 	@Override
 	public void process(byte[] pBuffer, int pBytes) throws Exception {

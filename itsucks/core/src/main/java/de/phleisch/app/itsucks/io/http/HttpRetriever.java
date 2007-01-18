@@ -24,6 +24,7 @@ public class HttpRetriever extends DataRetriever {
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
 	private URLConnection mConnection;
+	private HttpMetadata mMetadata;
 	
 	public HttpRetriever() {
 		super();
@@ -33,6 +34,12 @@ public class HttpRetriever extends DataRetriever {
 	public void connect() throws IOException {
 		 mConnection = mUrl.openConnection();
 		 mLog.debug("Connected to: " + mConnection.getURL());
+		 
+		//build metadata
+	
+		mMetadata = new HttpMetadata();
+		mMetadata.setMimetype(mConnection.getContentType());
+		mMetadata.setStatusCode(0);
 	}
 	
 
@@ -67,11 +74,6 @@ public class HttpRetriever extends DataRetriever {
 		
 	}
 	
-	@Override
-	public String getContentType() {
-		return mConnection.getContentType();
-	}
-	
 	private void download() throws Exception {
 		
 		InputStream input = mConnection.getInputStream(); 
@@ -100,6 +102,10 @@ public class HttpRetriever extends DataRetriever {
 			processor.finish();
 		}
 		
+	}
+	
+	public HttpMetadata getMetadata() {
+		return mMetadata;
 	}
 	
 }
