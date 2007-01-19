@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.io.http;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -43,7 +44,10 @@ public class HttpMetadata extends Metadata {
 		
 		HeaderElement[] values = new HeaderElement[0];
 		try {
-			values = mConnection.getRequestHeader(pName).getValues();
+			Header requestHeader = mConnection.getRequestHeader(pName);
+			if(requestHeader != null) {
+				values = requestHeader.getValues();
+			}
 		} catch (HttpException e) {
 			throw new RuntimeException(e);
 		}
