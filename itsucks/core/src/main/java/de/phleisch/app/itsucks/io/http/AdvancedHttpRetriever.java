@@ -30,6 +30,7 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	private static HttpClient mClient;
 	private GetMethod mGet = null;
 	private HttpMetadata mMetadata;
+	private String mUserAgent;
 	
 	{
      	MultiThreadedHttpConnectionManager connectionManager = 
@@ -48,6 +49,9 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
+		if(getUserAgent() != null) {
+			mGet.addRequestHeader("User-Agent", getUserAgent());
+		}
 		mClient.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " / " + mGet.getStatusCode());
 		
@@ -125,4 +129,12 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		return mMetadata;
 	}
 
+	public String getUserAgent() {
+		return mUserAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		mUserAgent = userAgent;
+	}
+	
 }

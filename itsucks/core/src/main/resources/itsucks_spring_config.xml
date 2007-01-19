@@ -105,6 +105,10 @@
 		id="HttpRetriever" 
 		class="de.phleisch.app.itsucks.io.http.AdvancedHttpRetriever" 
 		singleton="false">
+		
+		<property name="userAgent">
+			<value>Mozilla/5.0</value>
+		</property>
 	</bean>
 	
 	<bean 
