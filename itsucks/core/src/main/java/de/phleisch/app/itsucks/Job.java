@@ -28,7 +28,7 @@ public abstract class Job extends Observable implements Comparable<Job>, Cloneab
 	public final static int STATE_FINISHED = 51;
 	public final static int STATE_IGNORED = 52;
 	public final static int STATE_ALREADY_PROCESSED = 53;
-	public final static int STATE_ERROR = 54;
+	public final static int STATE_ERROR = 99;
 	
 	public final static int NOTIFICATION_BEFORE_CHANGE = 100;
 	public final static int NOTIFICATION_AFTER_CHANGE = 200;

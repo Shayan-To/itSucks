@@ -7,8 +7,8 @@
 
 package de.phleisch.app.itsucks.io;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -18,18 +18,25 @@ import org.springframework.context.ApplicationContextAware;
 public class DataRetrieverManager implements ApplicationContextAware {
 
 	private ApplicationContext mContext;
-	private List<String> mRetriever;
+	private Map<String, String> mRetriever;
 	
 	public DataRetrieverManager() {
 		super();
 	}
 
 	public DataRetriever getRetrieverForProtocol(String pProtocol) {
-		return (DataRetriever) mContext.getBean(mRetriever.get(0));
+		DataRetriever retriever = null;
+		
+		String retrieverBeanName = mRetriever.get(pProtocol);
+		if(retrieverBeanName != null) {
+			retriever = (DataRetriever) mContext.getBean(retrieverBeanName);
+		}
+		
+		return retriever;
 	}
 	
-	public void setRetriever(List<String> pList) {
-		mRetriever = new ArrayList<String>(pList);
+	public void setRetriever(Map<String, String> pRetriever) {
+		mRetriever = new HashMap<String, String>(pRetriever);
 	}
 
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {

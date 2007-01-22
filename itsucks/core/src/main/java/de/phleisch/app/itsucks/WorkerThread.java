@@ -79,6 +79,7 @@ public class WorkerThread extends Thread {
 					mJob.setState(Job.STATE_FINISHED);
 				} catch(Exception ex) {
 					mJob.setState(Job.STATE_ERROR);
+					mLog.error("Error executing job", ex);
 				}
 				
 				mLog.info("Finished working on job: " + mJob);

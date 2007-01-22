@@ -71,7 +71,13 @@ public class DownloadJob extends Job {
 		
 		mDataRetriever = 
 			mDataRetrieverManager.getRetrieverForProtocol(protocol);
-
+		
+		//check if an data retriever is available
+		if(mDataRetriever == null) {
+			mLog.warn("Protocol not supported: '" + protocol + "', job aborted. - " + this);
+			return;
+		}
+		
 		mDataRetriever.setUrl(mUrl);
 		mDataRetriever.connect();
 		

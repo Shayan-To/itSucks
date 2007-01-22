@@ -11,13 +11,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.sun.jmx.mbeanserver.MetaData;
 
 import de.phleisch.app.itsucks.io.DataProcessor;
 import de.phleisch.app.itsucks.io.DataRetriever;
@@ -58,7 +57,13 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		//build metadata
 
 		mMetadata = new HttpMetadata();
-		mMetadata.setMimetype(mGet.getResponseHeader("Content-Type").getValue());
+		
+		Header contentType = mGet.getResponseHeader("Content-Type");
+		if(contentType != null) {
+			mMetadata.setMimetype(contentType.getValue());	
+		} else {
+			mMetadata.setMimetype("undefined");
+		}
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setConnection(mGet);
 	}

@@ -94,9 +94,12 @@
 		singleton="true">
 		
 		<property name="retriever">
-			<list>
-				<idref bean="HttpRetriever"/>
-			</list>
+			<map>
+				<entry>
+					<key><value>http</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
+			</map>
 		</property>
 		
 	</bean>
