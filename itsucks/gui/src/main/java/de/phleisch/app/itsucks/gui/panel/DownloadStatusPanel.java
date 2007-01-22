@@ -29,7 +29,6 @@ public class DownloadStatusPanel extends JPanel {
 	private JTable jDownloadStatusTable = null;
 	private DownloadJobTableModel mDownloadStatusTableModel = null;
 	
-	private JLabel jLabel = null; 
 	private DispatcherThread mJobDispatcher;
 	
 	private JobListObserver mJobListObserver = new JobListObserver();
@@ -52,12 +51,9 @@ public class DownloadStatusPanel extends JPanel {
 		
 		mDownloadStatusTableModel = new DownloadJobTableModel(); 
 		
-		jLabel = new JLabel();
-		jLabel.setText("JLabel");
 		this.setSize(300, 200);
 		this.setLayout(new BorderLayout());
 		this.add(getJScrollPane(), BorderLayout.CENTER);
-		this.add(jLabel, BorderLayout.NORTH);
 	}
 
 	public void setDispatcher(DispatcherThread pDispatcher) {
