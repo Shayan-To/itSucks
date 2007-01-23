@@ -99,6 +99,11 @@
 					<key><value>http</value></key>
 					<idref bean="HttpRetriever"/>
 				</entry>
+				
+				<entry>
+					<key><value>https</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
 			</map>
 		</property>
 		
