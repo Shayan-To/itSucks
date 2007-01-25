@@ -7,7 +7,9 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.awt.Dialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Rectangle;
 
 import javax.swing.ButtonGroup;
@@ -21,6 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
+
+import javax.swing.JButton;
 
 public class AdvancedFilterPanel extends JPanel {
 
@@ -45,6 +50,8 @@ public class AdvancedFilterPanel extends JPanel {
 	private JLabel jLabel = null;
 
 	private JScrollPane jAddAdvancedFilterScrollablePane = null;
+
+	private JButton jButton = null;
 	
 	/**
 	 * This is the default constructor
@@ -94,6 +101,7 @@ public class AdvancedFilterPanel extends JPanel {
 		add(getJCheckBox(), null);
 		this.add(getJPriorityChange(), null);
 		add(jAdvancedFilterHelp, null);
+		this.add(getJButton(), null);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(getJRadioAFilterReject());
@@ -207,7 +215,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JScrollPane getJAddAdvancedFilterScrollablePane() {
 		if (jAddAdvancedFilterScrollablePane == null) {
 			jAddAdvancedFilterScrollablePane = new JScrollPane();
-			jAddAdvancedFilterScrollablePane.setBounds(new Rectangle(10, 30, 351, 81));
+			jAddAdvancedFilterScrollablePane.setBounds(new Rectangle(10, 30, 351, 61));
 			jAddAdvancedFilterScrollablePane.setViewportView(getJAddAdvancedFilter());
 		}
 		return jAddAdvancedFilterScrollablePane;
@@ -233,5 +241,26 @@ public class AdvancedFilterPanel extends JPanel {
 				prioChange);
 		
 		return rule;
+	}
+
+	/**
+	 * This method initializes jButton	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton() {
+		if (jButton == null) {
+			jButton = new JButton();
+			jButton.setBounds(new Rectangle(230, 90, 131, 21));
+			jButton.setText("RegExp Editor");
+			jButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+//					EditRegularExpressionDialog dialog = 
+//						new EditRegularExpressionDialog((JPanel)AdvancedFilterPanel.this.getParent());
+//					dialog.setVisible(true);
+				}
+			});
+		}
+		return jButton;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

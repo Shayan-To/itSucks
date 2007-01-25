@@ -15,10 +15,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -185,7 +187,15 @@ public class EditRegularExpression extends JPanel {
 					String regExp = jRegExpField.getText();
 					String testText = jTestTextField.getText();
 					
-					Pattern pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
+					Pattern pattern = null;
+					try {
+						pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
+					} catch(PatternSyntaxException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), 
+								"Regular expression error", JOptionPane.ERROR_MESSAGE );
+						return;
+					}
+					
 					Matcher m = pattern.matcher(testText);
 					
 					boolean result = false;
