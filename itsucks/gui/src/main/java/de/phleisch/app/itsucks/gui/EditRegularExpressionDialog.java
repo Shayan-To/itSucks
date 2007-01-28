@@ -9,14 +9,15 @@
 package de.phleisch.app.itsucks.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
-import de.phleisch.app.itsucks.gui.panel.EditRegularExpression;
+import de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel;
 
 public class EditRegularExpressionDialog extends JDialog {
 
@@ -24,7 +25,7 @@ public class EditRegularExpressionDialog extends JDialog {
 
 	private JPanel jContentPane = null;
 
-	private EditRegularExpression editRegularExpression = null;
+	private EditRegularExpressionPanel editRegularExpression = null;
 
 	private JPanel jActionPanel = null;
 
@@ -35,7 +36,7 @@ public class EditRegularExpressionDialog extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public EditRegularExpressionDialog(Frame owner) {
+	public EditRegularExpressionDialog(Dialog owner) {
 		super(owner);
 		initialize();
 	}
@@ -47,7 +48,10 @@ public class EditRegularExpressionDialog extends JDialog {
 	 */
 	private void initialize() {
 		this.setSize(916, 428);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setContentPane(getJContentPane());
+		this.setLocationByPlatform(true);
+		this.setTitle("Edit regular expression");
 	}
 
 	/**
@@ -70,9 +74,9 @@ public class EditRegularExpressionDialog extends JDialog {
 	 * 	
 	 * @return de.phleisch.app.itsucks.gui.panel.EditRegularExpression	
 	 */
-	private EditRegularExpression getEditRegularExpression() {
+	private EditRegularExpressionPanel getEditRegularExpression() {
 		if (editRegularExpression == null) {
-			editRegularExpression = new EditRegularExpression();
+			editRegularExpression = new EditRegularExpressionPanel();
 		}
 		return editRegularExpression;
 	}
@@ -101,6 +105,12 @@ public class EditRegularExpressionDialog extends JDialog {
 		if (jOkButton == null) {
 			jOkButton = new JButton();
 			jOkButton.setText("Ok");
+			jOkButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					EditRegularExpressionDialog.this.setVisible(false);
+					dispose();
+				}
+			});
 		}
 		return jOkButton;
 	}
@@ -114,8 +124,23 @@ public class EditRegularExpressionDialog extends JDialog {
 		if (jCancelButton == null) {
 			jCancelButton = new JButton();
 			jCancelButton.setText("Cancel");
+			jCancelButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					EditRegularExpressionDialog.this.setVisible(false);
+					setRegularExpression(null);
+					dispose();
+				}
+			});
 		}
 		return jCancelButton;
+	}
+	
+	public void setRegularExpression(String pExpression) {
+		this.editRegularExpression.setRegularExpression(pExpression);
+	}
+	
+	public String getRegularExpression() {
+		return this.editRegularExpression.getRegularExpression();
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

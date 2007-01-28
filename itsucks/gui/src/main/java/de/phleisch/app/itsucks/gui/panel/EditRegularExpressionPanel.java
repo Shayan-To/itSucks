@@ -27,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class EditRegularExpression extends JPanel {
+public class EditRegularExpressionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JScrollPane jRegExpPane = null;
@@ -43,10 +43,11 @@ public class EditRegularExpression extends JPanel {
 	private JLabel jMatchLabel = null;
 	private JScrollPane jHelpTextPane = null;
 	private JLabel jHelpText = null;
+	
 	/**
 	 * This is the default constructor
 	 */
-	public EditRegularExpression() {
+	public EditRegularExpressionPanel() {
 		super();
 		initialize();
 	}
@@ -258,6 +259,14 @@ public class EditRegularExpression extends JPanel {
 		}
 		reader.close();
 		return text;
+	}
+	
+	public void setRegularExpression(String pExpression) {
+		this.jRegExpField.setText(pExpression);
+	}
+	
+	public String getRegularExpression() {
+		return this.jRegExpField.getText();
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="26,15"

@@ -112,7 +112,10 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 			jButtonAdvancedFilterAdd.setText("Add");
 			jButtonAdvancedFilterAdd.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					new AddAdvancedFilterDialog(mParentDialog, AdvancedFilterOverviewPanel.this);
+					AddAdvancedFilterDialog advancedFilterDialog = 
+						new AddAdvancedFilterDialog(mParentDialog, AdvancedFilterOverviewPanel.this);
+					advancedFilterDialog.setModal(true);
+					advancedFilterDialog.setVisible(true);
 				}
 			});
 		}
@@ -233,7 +236,8 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	 * @see de.phleisch.app.chaoscrawler.gui.second_try.AddAdvancedFilterInterface#addAdvancedFilterRule(de.phleisch.app.chaoscrawler.filter.RegExpJobFilter.RegExpFilterRule)
 	 */
 	public void addAdvancedFilterRule(RegExpJobFilter.RegExpFilterRule pRule) {
-		mAdvancedFilterListModel.add(0, pRule);
+		mAdvancedFilterListModel.add(mAdvancedFilterListModel.size(), pRule);
+		this.jAdvancedFilterList.ensureIndexIsVisible(mAdvancedFilterListModel.size() - 1);
 	}
 
 	public JobFilterInterface buildAdvancedFilter() {

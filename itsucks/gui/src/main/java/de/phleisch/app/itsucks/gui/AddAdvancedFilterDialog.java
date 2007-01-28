@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterPanel;
+import java.awt.Dimension;
 
 public class AddAdvancedFilterDialog extends JDialog {
 
@@ -53,12 +54,11 @@ public class AddAdvancedFilterDialog extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(572, 306);
+		this.setSize(572, 444);
 		this.setTitle("Add advanced filter");
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setLocationByPlatform(true);
 		this.setContentPane(getJContentPane());
-		this.setVisible(true);
 	}
 
 	/**

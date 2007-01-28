@@ -58,6 +58,8 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private JMenu editMenu = null;
 
+	private JMenu toolsMenu = null;
+	
 	private JMenu helpMenu = null;
 
 	private JMenuItem exitMenuItem = null;
@@ -68,6 +70,8 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private JMenuItem aboutMenuItem = null;
 
+	private JMenuItem toolsMenuItem = null;
+	
 	private JMenuItem cutMenuItem = null;
 
 	private JMenuItem copyMenuItem = null;
@@ -146,6 +150,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			jJMenuBar = new JMenuBar();
 			jJMenuBar.add(getFileMenu());
 			jJMenuBar.add(getEditMenu());
+			jJMenuBar.add(getToolsMenu());
 			jJMenuBar.add(getHelpMenu());
 		}
 		return jJMenuBar;
@@ -183,6 +188,20 @@ public class MainWindow implements AddDownloadJobInterface {
 		return editMenu;
 	}
 
+	/**
+	 * This method initializes jTools
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getToolsMenu() {
+		if (toolsMenu == null) {
+			toolsMenu = new JMenu();
+			toolsMenu.setText("Tools");
+			toolsMenu.add(getToolsMenuItem());
+		}
+		return toolsMenu;
+	}
+	
 	/**
 	 * This method initializes jMenu	
 	 * 	
@@ -271,6 +290,26 @@ public class MainWindow implements AddDownloadJobInterface {
 		return aboutMenuItem;
 	}
 
+	/**
+	 * This method initializes jMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getToolsMenuItem() {
+		if (toolsMenuItem == null) {
+			toolsMenuItem = new JMenuItem();
+			toolsMenuItem.setText("Regular Expression Tester");
+			toolsMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TestRegularExpressionDialog tester = 
+						new TestRegularExpressionDialog(MainWindow.this.getJFrame());
+					tester.setVisible(true);
+				}
+			});
+		}
+		return toolsMenuItem;
+	}
+	
 	/**
 	 * This method initializes aboutDialog	
 	 * 	
