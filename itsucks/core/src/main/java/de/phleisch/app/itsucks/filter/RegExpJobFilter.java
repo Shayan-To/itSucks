@@ -65,14 +65,26 @@ public class RegExpJobFilter implements JobFilterInterface {
 		        	//mLog.trace("URL: " + url.toString() + " matches to rule: " + p);
 		        	
 		        	//change the priority of the job
-		        	if(rule.getPriorityChange() != 0) {
-		        		pJob.setPriority(pJob.getPriority() + rule.getPriorityChange());
+		        	if(rule.getMatchPriorityChange() != 0) {
+		        		pJob.setPriority(pJob.getPriority() + rule.getMatchPriorityChange());
 		        	}
 		        	
 		        	//only change accept if the rule changes it
-		        	if(rule.getAccept() != null) {
-		        		accept = rule.getAccept();
+		        	if(rule.getMatchAccept() != null) {
+		        		accept = rule.getMatchAccept();
 		        	}
+		        } else {
+		        	
+		        	//change the priority of the job
+		        	if(rule.getNoMatchPriorityChange() != 0) {
+		        		pJob.setPriority(pJob.getPriority() + rule.getNoMatchPriorityChange());
+		        	}
+		        	
+		        	//only change accept if the rule changes it
+		        	if(rule.getNoMatchAccept() != null) {
+		        		accept = rule.getNoMatchAccept();
+		        	}
+		        	
 		        }
 			}
 		}
@@ -120,14 +132,26 @@ public class RegExpJobFilter implements JobFilterInterface {
 	
 	public static class RegExpFilterRule {
 
+		private String mName;
+		
 		private Pattern mPattern;
-		private int mPriorityChange;
-		private Boolean mAccept;
+		private int mMatchPriorityChange;
+		private Boolean mMatchAccept;
+		private int mNoMatchPriorityChange;
+		private Boolean mNoMatchAccept;
 		
 		public RegExpFilterRule(String pPattern, Boolean pAccept, int pPriorityChange) {
 			setPattern(pPattern);
-			setAccept(pAccept);
-			setPriorityChange(pPriorityChange);
+			setMatchAccept(pAccept);
+			setMatchPriorityChange(pPriorityChange);
+		}
+		
+		public RegExpFilterRule(String pPattern, Boolean pMatchAccept, int pMatchPriorityChange, Boolean pNoMatchAccept, int pNoMatchPriorityChange) {
+			setPattern(pPattern);
+			setMatchAccept(pMatchAccept);
+			setMatchPriorityChange(pMatchPriorityChange);
+			setNoMatchAccept(pNoMatchAccept);
+			setNoMatchPriorityChange(pNoMatchPriorityChange);
 		}
 		
 		public RegExpFilterRule(String pPattern, Boolean pAccept) {
@@ -151,27 +175,72 @@ public class RegExpJobFilter implements JobFilterInterface {
 		 * 
 		 * @param pAccept true == accept the job, false == discard the job, null == leave the previous value
 		 */
-		public void setAccept(Boolean pAccept) {
-			mAccept = pAccept;
+		public void setMatchAccept(Boolean pAccept) {
+			mMatchAccept = pAccept;
 		}
 
-		public int getPriorityChange() {
-			return mPriorityChange;
+		public int getMatchPriorityChange() {
+			return mMatchPriorityChange;
 		}
 
-		public void setPriorityChange(int pPriorityChange) {
-			mPriorityChange = pPriorityChange;
+		public void setMatchPriorityChange(int pPriorityChange) {
+			mMatchPriorityChange = pPriorityChange;
 		}
 
-		public Boolean getAccept() {
-			return mAccept;
+		public Boolean getMatchAccept() {
+			return mMatchAccept;
 		}
 
 		@Override
 		public String toString() {
-			return "'" + getPattern() + "' " +
-					"Accept: '" + (getAccept() == null ? "no change" : getAccept()) + "' " +
-					"PrioChg: '" + getPriorityChange() + "'";
+			return toHtmlString();
+		}
+		
+		public String toTextString() {
+			return (mName != null ? "Name: '" + mName + "'\n" : "") +
+					"Pattern: '" + getPattern() + "' \n" +
+					"Match: " + 
+					"Accept: '" + (getMatchAccept() == null ? "no change" : getMatchAccept()) + "', " +
+					"PrioChg: '" + getMatchPriorityChange() + "' \n" +
+					"No Match: " +
+					"Accept: '" + (getNoMatchAccept() == null ? "no change" : getNoMatchAccept()) + "', " +
+					"PrioChg: '" + getNoMatchPriorityChange() + "'";
+		}
+		
+		public String toHtmlString() {
+			return "<html>" +
+					(mName != null ? "Name: '" + mName + "'<br>\n" : "") +
+					"Pattern: '" + getPattern() + "' <br>\n" +
+					"Match: " + 
+					"Accept: '" + (getMatchAccept() == null ? "no change" : getMatchAccept()) + "', " +
+					"PrioChg: '" + getMatchPriorityChange() + "' " +
+					"<br>\nNo Match: " +
+					"Accept: '" + (getNoMatchAccept() == null ? "no change" : getNoMatchAccept()) + "', " +
+					"PrioChg: '" + getNoMatchPriorityChange() + "'</html>";
+		}
+
+		public Boolean getNoMatchAccept() {
+			return mNoMatchAccept;
+		}
+
+		public void setNoMatchAccept(Boolean pNoMatchAccept) {
+			mNoMatchAccept = pNoMatchAccept;
+		}
+
+		public int getNoMatchPriorityChange() {
+			return mNoMatchPriorityChange;
+		}
+
+		public void setNoMatchPriorityChange(int pNoMatchPriorityChange) {
+			mNoMatchPriorityChange = pNoMatchPriorityChange;
+		}
+
+		public String getName() {
+			return mName;
+		}
+
+		public void setName(String pName) {
+			mName = pName;
 		}
 		
 	}
