@@ -17,7 +17,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 
 /**
  * The dispatcher is the central class to start an job.
@@ -161,11 +161,11 @@ public class Dispatcher implements ApplicationContextAware {
 		mJobManager.addJob(pJob);
 	}
 
-	public void addJobFilter(JobFilterInterface pJobFilter) {
+	public void addJobFilter(JobFilter pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
 	}
 
-	public void addJobFilter(List<JobFilterInterface> pJobFilter) {
+	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
 	}
 	

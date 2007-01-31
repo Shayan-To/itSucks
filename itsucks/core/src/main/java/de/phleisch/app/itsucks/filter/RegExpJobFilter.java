@@ -23,7 +23,7 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  * @author olli
  *
  */
-public class RegExpJobFilter implements JobFilterInterface {
+public class RegExpJobFilter implements JobFilter {
 	
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(RegExpJobFilter.class);

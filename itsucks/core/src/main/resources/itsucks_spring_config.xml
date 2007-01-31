@@ -30,7 +30,7 @@
 		singleton="false">
 		
 		<property name="jobList">
-			<ref bean="JobList"/>
+			<ref bean="SimpleJobListImpl"/>
 		</property>
 
 <!-- 
@@ -44,8 +44,8 @@
 	</bean>
 	
 	<bean 
-		id="JobList" 
-		class="de.phleisch.app.itsucks.JobList" 
+		id="SimpleJobListImpl" 
+		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
 		singleton="false">
 	</bean>
 

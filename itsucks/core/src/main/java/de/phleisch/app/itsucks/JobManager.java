@@ -14,19 +14,19 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 
 public class JobManager {
 	
 	private static Log mLog = LogFactory.getLog(JobManager.class);
 
 	private JobList mJobList;
-	private List<JobFilterInterface> mJobFilter;
+	private List<JobFilter> mJobFilter;
 	
 	public JobManager() {
 		super();
 		
-		mJobFilter = new ArrayList<JobFilterInterface>();
+		mJobFilter = new ArrayList<JobFilter>();
 	}
 
 	private void addJobUnfiltered(Job pJob) {
@@ -50,7 +50,7 @@ public class JobManager {
 		try {
 		
 			boolean filterFound = false;
-			for (JobFilterInterface filter : mJobFilter) {
+			for (JobFilter filter : mJobFilter) {
 				if(filter.supports(job)) {
 					filterFound = true;
 					job = filter.filter(job);
@@ -82,19 +82,19 @@ public class JobManager {
 		mJobList = pJobList;
 	}
 
-	public void setJobFilter(List<JobFilterInterface> pJobFilter) {
+	public void setJobFilter(List<JobFilter> pJobFilter) {
 		mJobFilter.addAll(pJobFilter);
 	}
 
-	public void addJobFilter(JobFilterInterface pJobFilter) {
+	public void addJobFilter(JobFilter pJobFilter) {
 		mJobFilter.add(pJobFilter);
 	}
 	
-	public void addJobFilter(List<JobFilterInterface> pJobFilter) {
+	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobFilter.addAll(pJobFilter);
 	}
 
-	public List<JobFilterInterface> getJobFilter() {
+	public List<JobFilter> getJobFilter() {
 		return mJobFilter;
 	}
 	

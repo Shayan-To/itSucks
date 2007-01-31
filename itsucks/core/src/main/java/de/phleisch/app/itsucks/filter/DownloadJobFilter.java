@@ -15,7 +15,7 @@ import java.util.Set;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
-public class DownloadJobFilter implements JobFilterInterface {
+public class DownloadJobFilter implements JobFilter {
 
 	private Set<URI> mAlreadyAddedUrls;
 	

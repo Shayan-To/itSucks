@@ -14,7 +14,7 @@ import de.phleisch.app.itsucks.Job;
  * job when adding it to the job list. 
  * @author olli
  */
-public interface JobFilterInterface {
+public interface JobFilter {
 
 	public Job filter(Job pJob) throws Exception;
 	public boolean supports(Job pJob);
