@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,7 +18,7 @@ import javax.swing.table.TableColumnModel;
 
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.JobList;
-import de.phleisch.app.itsucks.JobList.JobListNotification;
+import de.phleisch.app.itsucks.JobListNotification;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class DownloadStatusPanel extends JPanel {
@@ -79,7 +78,10 @@ public class DownloadStatusPanel extends JPanel {
 			
 			if(notification.message == JobList.NOTIFICATION_JOB_ADDED) {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
-				mDownloadStatusTableModel.addDownloadJob(job);
+				
+				if(job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
+					mDownloadStatusTableModel.addDownloadJob(job);
+				}
 			} else if(notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
 				mDownloadStatusTableModel.removeDownloadJob(job);

@@ -10,13 +10,13 @@ package de.phleisch.app.itsucks.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class AddDownloadJobBean {
 	
 	private DownloadJob mDownload;
-	private List<JobFilterInterface> mFilterList;
+	private List<JobFilter> mFilterList;
 	
 	public DownloadJob getDownload() {
 		return mDownload;
@@ -24,15 +24,15 @@ public class AddDownloadJobBean {
 	public void setDownload(DownloadJob pDownload) {
 		mDownload = pDownload;
 	}
-	public List<JobFilterInterface> getFilterList() {
+	public List<JobFilter> getFilterList() {
 		return mFilterList;
 	}
-	public void setFilterList(List<JobFilterInterface> pFilterList) {
+	public void setFilterList(List<JobFilter> pFilterList) {
 		mFilterList = pFilterList;
 	}
-	public void addFilter(JobFilterInterface pAdvancedFilter) {
+	public void addFilter(JobFilter pAdvancedFilter) {
 		
-		List<JobFilterInterface> newList = new ArrayList<JobFilterInterface>(getFilterList());
+		List<JobFilter> newList = new ArrayList<JobFilter>(getFilterList());
 		newList.add(pAdvancedFilter);
 		
 		setFilterList(newList);

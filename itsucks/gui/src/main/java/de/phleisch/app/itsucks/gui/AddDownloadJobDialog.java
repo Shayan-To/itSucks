@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
 
@@ -80,7 +80,7 @@ public class AddDownloadJobDialog extends JDialog {
 		AddDownloadJobBean job = this.downloadJobMainPanel.buildDownloadJob();
 		if(job == null) return;
 		
-		JobFilterInterface advancedFilter = 
+		JobFilter advancedFilter = 
 			this.advancedFilterOverviewPanel.buildAdvancedFilter();
 		
 		job.addFilter(advancedFilter);

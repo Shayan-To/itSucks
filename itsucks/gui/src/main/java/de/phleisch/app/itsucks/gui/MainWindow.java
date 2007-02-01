@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -475,7 +475,7 @@ public class MainWindow implements AddDownloadJobInterface {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.chaoscrawler.gui.AddDownloadJobInterface#addDownload(de.phleisch.app.chaoscrawler.io.DownloadJob, java.util.List)
 	 */
-	public void addDownload(DownloadJob pDownload, List<JobFilterInterface> pFilterList) {
+	public void addDownload(DownloadJob pDownload, List<JobFilter> pFilterList) {
 		
 		DownloadStatusPanel pane = new DownloadStatusPanel();
 		

@@ -9,12 +9,12 @@ package de.phleisch.app.itsucks.gui;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.filter.JobFilterInterface;
+import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 public interface AddDownloadJobInterface {
 
 	public abstract void addDownload(DownloadJob pDownload,
-			List<JobFilterInterface> pFilterList);
+			List<JobFilter> pFilterList);
 
 }
