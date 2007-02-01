@@ -32,6 +32,13 @@ public class JobListPerformanceTest extends TestCase {
 		
 		for (String jobListName : beans) {
 			
+			long startUltraShort = System.currentTimeMillis();
+			testJobList(context, jobListName, 1000, 100000);
+			long endUltraShort = System.currentTimeMillis();
+			
+			System.out.println("Ultra Short Test for '" + jobListName + "' took: " + (endUltraShort - startUltraShort) + " ms");
+			
+			/*
 			long startShort = System.currentTimeMillis();
 			testJobList(context, jobListName, 10000, 100000);
 			long endShort = System.currentTimeMillis();
@@ -49,6 +56,7 @@ public class JobListPerformanceTest extends TestCase {
 			long endLong = System.currentTimeMillis();
 			
 			System.out.println("Long Test for '" + jobListName + "' took: " + (endLong - startLong) + " ms");
+			*/
 		}
 		
 	}
@@ -64,7 +72,6 @@ public class JobListPerformanceTest extends TestCase {
 		for (int i = 0; i < JOB_AMOUNT; i++) {
 			
 			testJob = (Job) context.getBean("DownloadJob");
-			testJob.setId(i);
 			testJob.setState(random.nextInt(999));
 			testJob.setPriority(random.nextInt(Job.MAX_PRIORITY));
 		

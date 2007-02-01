@@ -30,13 +30,12 @@ public abstract class Job extends Observable implements Cloneable {
 	public final static int STATE_ALREADY_PROCESSED = 53;
 	public final static int STATE_ERROR = 99;
 	
-	public final static int NOTIFICATION_BEFORE_CHANGE = 100;
-	public final static int NOTIFICATION_AFTER_CHANGE = 200;
+	public final static int NOTIFICATION_AFTER_CHANGE = 100;
 	
 	public final static int MAX_PRIORITY = 999;
 	public final static int MIN_PRIORITY = 0;
 
-	private int mId;
+	private int mId = -1;
 	
 	private String mName;
 	
@@ -58,8 +57,6 @@ public abstract class Job extends Observable implements Cloneable {
 
 	protected JobManager mJobManager;
 
-	//private Integer mOrderKey; // the cached order key
-	
 	/**
 	 * Starts the execution of the job.
 	 * It returns when the job is finished.
@@ -172,6 +169,10 @@ public abstract class Job extends Observable implements Cloneable {
 	 * @param pJobId
 	 */
 	public void setId(int pJobId) {
+		if(mId != -1) 
+			throw new IllegalStateException("Second change of the job id is not allowed. " +
+					"(This leads to problems with the ordering in the job list.)");
+		
 		mId = pJobId;
 	}
 
@@ -181,11 +182,6 @@ public abstract class Job extends Observable implements Cloneable {
 
 	public void setName(String pName) {
 		mName = pName;
-	}
-
-	@Override
-	protected synchronized void setChanged() {
-		super.setChanged();
 	}
 
 	@Override

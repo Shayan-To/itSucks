@@ -291,7 +291,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
-			jButton.setBounds(new Rectangle(230, 90, 131, 21));
+			jButton.setBounds(new Rectangle(229, 95, 131, 21));
 			jButton.setText("RegExp Editor");
 			jButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -327,7 +327,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterNoChange1() {
 		if (jRadioAFilterNoChange1 == null) {
 			jRadioAFilterNoChange1 = new JRadioButton();
-			jRadioAFilterNoChange1.setBounds(new Rectangle(10, 270, 146, 23));
+			jRadioAFilterNoChange1.setBounds(new Rectangle(10, 270, 171, 23));
 			jRadioAFilterNoChange1.setSelected(true);
 			jRadioAFilterNoChange1.setText("Do not change status");
 			jRadioAFilterNoChange1.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -343,7 +343,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterAccept1() {
 		if (jRadioAFilterAccept1 == null) {
 			jRadioAFilterAccept1 = new JRadioButton();
-			jRadioAFilterAccept1.setBounds(new Rectangle(10, 290, 90, 23));
+			jRadioAFilterAccept1.setBounds(new Rectangle(10, 290, 171, 23));
 			jRadioAFilterAccept1.setText("Accept URL");
 			jRadioAFilterAccept1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
@@ -358,7 +358,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterReject1() {
 		if (jRadioAFilterReject1 == null) {
 			jRadioAFilterReject1 = new JRadioButton();
-			jRadioAFilterReject1.setBounds(new Rectangle(10, 310, 87, 23));
+			jRadioAFilterReject1.setBounds(new Rectangle(10, 310, 171, 23));
 			jRadioAFilterReject1.setText("Reject URL");
 			jRadioAFilterReject1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}

@@ -229,7 +229,10 @@ public class DownloadJobMainPanel extends JPanel {
 			jSavePath = new JTextField();
 			jSavePath.setBounds(new Rectangle(20, 110, 361, 21));
 			jSavePath.setFont(new Font("Dialog", Font.PLAIN, 12));
-			jSavePath.setText(System.getProperty("user.home") + "/itsucks/");
+			jSavePath.setText(System.getProperty("user.home") 
+					+ File.separatorChar 
+					+ "itsucks" 
+					+ File.separatorChar);
 		}
 		return jSavePath;
 	}

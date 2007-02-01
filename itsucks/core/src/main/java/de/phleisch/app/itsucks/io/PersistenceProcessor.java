@@ -27,6 +27,26 @@ public class PersistenceProcessor extends DataProcessor {
 	private File mFile;
 	private OutputStream mOut;
 	
+	private static final String ALLOWED_COMMON_CHARS = 
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+		"abcdefghijklmnopqrstuvwxyz" +
+		"0123456789" +
+		"-+_,;#'()&%$!=~ ";
+	
+	/**
+	 * Whitelist for the allowed characters in an filename
+	 */
+	private static final String ALLOWED_FILENAME_CHARS = 
+			ALLOWED_COMMON_CHARS +
+			".";
+	
+	/**
+	 * Whitelist for the allowed characters in an directory
+	 */
+	private static final String ALLOWED_DIRECTORY_CHARS = 
+			ALLOWED_COMMON_CHARS +
+			"/";
+	
 	public PersistenceProcessor() {
 		super();
 	}
@@ -57,7 +77,7 @@ public class PersistenceProcessor extends DataProcessor {
 		
 		String full_path = url.getPath();
 		if(url.getQuery() != null) full_path += "?" + url.getQuery();
-		
+
 		String path = url.getPath();
 		String filename = "index.html";
 		if(!full_path.endsWith("/") && full_path.lastIndexOf('/') != -1) {
@@ -65,10 +85,10 @@ public class PersistenceProcessor extends DataProcessor {
 			path = 
 				full_path.substring(0, full_path.lastIndexOf('/'));
 			filename = full_path.substring(url.getPath().lastIndexOf('/') + 1);
-			
-			//replace all invalid characters
-			filename = filename.replaceAll("[\\" + File.separator + "]", "");
 		}
+		
+		//replace all invalid characters with a white list
+		path = filterString(path, ALLOWED_DIRECTORY_CHARS);
 		
 		File local_path = new File(
 			target_path + File.separator 
@@ -77,10 +97,30 @@ public class PersistenceProcessor extends DataProcessor {
 		mLog.debug("creating path: " + local_path);
 		
 		local_path.mkdirs();
+
+		//replace all invalid characters with a white list
+		filename = filterString(filename, ALLOWED_FILENAME_CHARS);
 		
 		mFile = new File(local_path + File.separator + filename);
 		mLog.debug("saving file: " + mFile);
 		mOut = new BufferedOutputStream(new FileOutputStream(mFile));
+	}
+
+	private String filterString(String filename, String pAllowedFilenameChars) {
+		
+		//replace all invalid characters with a white list
+		StringBuffer filteredString = new StringBuffer();
+		for (int i = 0; i < filename.length(); i++) {
+			
+			char ch = filename.charAt(i);
+			if(pAllowedFilenameChars.indexOf(ch) != -1) {
+				filteredString.append(ch);
+			} else {
+				filteredString.append('_');
+			}
+		}
+		
+		return filteredString.toString();
 	}
 
 	@Override
