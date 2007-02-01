@@ -17,7 +17,7 @@ import java.util.Observable;
  * @author olli
  *
  */
-public abstract class Job extends Observable implements Comparable<Job>, Cloneable {
+public abstract class Job extends Observable implements Cloneable {
 
 	public final static int STATE_OPEN = 1;
 	public final static int STATE_ASSIGNED = 2;
@@ -58,8 +58,8 @@ public abstract class Job extends Observable implements Comparable<Job>, Cloneab
 
 	protected JobManager mJobManager;
 
-	private Integer mOrderKey; // the cached order key
-
+	//private Integer mOrderKey; // the cached order key
+	
 	/**
 	 * Starts the execution of the job.
 	 * It returns when the job is finished.
@@ -121,7 +121,6 @@ public abstract class Job extends Observable implements Comparable<Job>, Cloneab
 		if(pState == mState) return;
 		
 		synchronized (this) {
-			this.prepareChange();
 			mState = pState;
 			this.afterChange();
 		}
@@ -150,15 +149,9 @@ public abstract class Job extends Observable implements Comparable<Job>, Cloneab
 		}
 		
 		synchronized (this) {
-			this.prepareChange();
 			mPriority = pPriority;
 			this.afterChange();
 		}
-	}
-	
-	private void prepareChange(){
-		this.setChanged();
-		this.notifyObservers(NOTIFICATION_BEFORE_CHANGE);
 	}
 	
 	private void afterChange() {
@@ -189,36 +182,19 @@ public abstract class Job extends Observable implements Comparable<Job>, Cloneab
 	public void setName(String pName) {
 		mName = pName;
 	}
-	
-	protected int generateOrderKey() {
-		return getState() * 1000 + (MAX_PRIORITY - getPriority());
-	}
-
-	protected Integer getOrderKey() {
-		if(mOrderKey == null) {
-			mOrderKey = generateOrderKey();
-		}
-		
-		return mOrderKey;
-	}
-
-	/**
-	 * Compares the job to another job. Used by the JobList to order
-	 * jobs by state and priority.
-	 * @param pJob
-	 * @return 1/0/-1
-	 */
-	public int compareTo(Job pJob) {
-		
-		int result = this.getOrderKey().compareTo((pJob).getOrderKey());
-		result = result != 0 ? result : new Integer(this.getId()).compareTo((pJob).getId()); 
-		
-		return result;
-	}
 
 	@Override
 	protected synchronized void setChanged() {
 		super.setChanged();
-		mOrderKey = null; // force to regenerate order key
 	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + mId;
+		result = PRIME * result + ((mName == null) ? 0 : mName.hashCode());
+		return result;
+	}
+
 }

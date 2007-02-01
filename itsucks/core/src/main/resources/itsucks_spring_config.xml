@@ -42,12 +42,28 @@
  -->		
 		
 	</bean>
+
+<!-- 
+	<bean 
+		id="DefaultJobComparator" 
+		class="de.phleisch.app.itsucks.DefaultJobComparator" 
+		singleton="false">
+	</bean>
+ -->	
 	
 	<bean 
 		id="SimpleJobListImpl" 
 		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
 		singleton="false">
 	</bean>
+	
+	<!-- 
+	<bean 
+		id="FastJobListImpl" 
+		class="de.phleisch.app.itsucks.FastJobListImpl" 
+		singleton="false">
+	</bean>	
+	 -->
 
 	<bean 
 		id="WorkerPool" 

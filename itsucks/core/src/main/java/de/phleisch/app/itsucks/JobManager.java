@@ -16,6 +16,12 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.filter.JobFilter;
 
+/**
+ * The job manager filters the incoming jobs and manages the internal job list. 
+ * 
+ * @author olli
+ *
+ */
 public class JobManager {
 	
 	private static Log mLog = LogFactory.getLog(JobManager.class);
