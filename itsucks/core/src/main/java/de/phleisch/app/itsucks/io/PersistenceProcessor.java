@@ -96,7 +96,9 @@ public class PersistenceProcessor extends DataProcessor {
 			+ path + File.separator);
 		mLog.debug("creating path: " + local_path);
 		
-		local_path.mkdirs();
+		if(!local_path.exists() && !local_path.mkdirs()) {
+			throw new IOException("Cannot create folder(s): " + local_path);
+		}
 
 		//replace all invalid characters with a white list
 		filename = filterString(filename, ALLOWED_FILENAME_CHARS);
