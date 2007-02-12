@@ -60,9 +60,6 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		addAdvancedFilterRule(new RegExpJobFilter.RegExpFilterRule(
 				"css$|jpg$|gif$|png$|js$", +50
 		));
-		addAdvancedFilterRule(new RegExpJobFilter.RegExpFilterRule(
-			".*", Boolean.TRUE
-		));
 	}
 
 	/**
@@ -250,9 +247,6 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 			RegExpFilterRule rule = (RegExpFilterRule) advancedFilters.nextElement();
 			regExpJobFilter.addFilterRule(rule);
 		}
-		
-		//set default to reject unfiltered jobs
-		regExpJobFilter.setLetUnfilteredJobsPass(false);
 		
 		return regExpJobFilter;
 	}
