@@ -60,10 +60,18 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		
 		Header contentType = mGet.getResponseHeader("Content-Type");
 		if(contentType != null) {
-			mMetadata.setMimetype(contentType.getValue());	
+			mMetadata.setContentType(contentType.getValue());	
 		} else {
-			mMetadata.setMimetype("undefined");
+			mMetadata.setContentType("undefined");
 		}
+		
+		Header contentLength = mGet.getResponseHeader("Content-Length");
+		if(contentLength != null) {
+			mMetadata.setContentLength(Integer.parseInt(contentLength.getValue()));	
+		} else {
+			mMetadata.setContentLength(-1);
+		}
+		
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setConnection(mGet);
 	}
@@ -111,10 +119,16 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		}
 		
 		//100k buffer
-		byte buffer[] = new byte[100000];
-		int bytesRead;
+		byte buffer[] = new byte[102400];
+		int bytesRead, allBytesRead = 0;
 		
 		while((bytesRead = input.read(buffer)) > 0) {
+			allBytesRead += bytesRead;
+			
+			if(allBytesRead > 0) {
+				updateProgress(((float)allBytesRead / (float)mMetadata.getContentLength()));
+			}
+			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
 			
 			for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 				DataProcessor processor = it.next();
@@ -128,6 +142,10 @@ public class AdvancedHttpRetriever extends DataRetriever {
 			processor.finish();
 		}
 		
+	}
+
+	private void updateProgress(float pProgress) {
+		mLog.trace("Update Progress: " + pProgress);
 	}
 
 	public HttpMetadata getMetadata() {

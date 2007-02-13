@@ -40,6 +40,8 @@ public class DownloadJob extends Job {
 	private DataProcessorManager mDataProcessorManager;
 	private DataRetrieverManager mDataRetrieverManager;
 	
+	private int mProgress = 0;
+	
 	private DataRetriever mDataRetriever;
 	
 	public DownloadJob() {
@@ -204,6 +206,14 @@ public class DownloadJob extends Job {
 		return mDataRetriever;
 	}
 
+	/**
+	 * Returns the current download progress.
+	 * @return
+	 */
+	public int getProgress() {
+		return mProgress;
+	}
+	
 	@Override
 	public String toString() {
 		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";

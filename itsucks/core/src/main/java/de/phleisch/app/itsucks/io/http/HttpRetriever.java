@@ -38,7 +38,7 @@ public class HttpRetriever extends DataRetriever {
 		//build metadata
 	
 		mMetadata = new HttpMetadata();
-		mMetadata.setMimetype(mConnection.getContentType());
+		mMetadata.setContentType(mConnection.getContentType());
 		mMetadata.setStatusCode(0);
 	}
 	

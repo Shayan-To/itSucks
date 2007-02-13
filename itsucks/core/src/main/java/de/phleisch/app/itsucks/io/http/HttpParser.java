@@ -53,7 +53,7 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
 			
 			if(metadata instanceof HttpMetadata &&
-					((HttpMetadata)metadata).getMimetype().startsWith("text/html")) {
+					((HttpMetadata)metadata).getContentType().startsWith("text/html")) {
 				return true;
 			}
 		}
