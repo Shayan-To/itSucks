@@ -121,12 +121,13 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		//100k buffer
 		byte buffer[] = new byte[102400];
 		int bytesRead, allBytesRead = 0;
+		int completeContentLenght = mMetadata.getContentLength();
 		
 		while((bytesRead = input.read(buffer)) > 0) {
 			allBytesRead += bytesRead;
 			
-			if(allBytesRead > 0) {
-				updateProgress(((float)allBytesRead / (float)mMetadata.getContentLength()));
+			if(completeContentLenght > 0) {
+				updateProgress(((float)allBytesRead / (float)completeContentLenght));
 			}
 			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
 			
