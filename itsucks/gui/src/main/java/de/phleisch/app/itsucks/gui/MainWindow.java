@@ -470,6 +470,9 @@ public class MainWindow implements AddDownloadJobInterface {
 		
 		pane.removeDispatcher();
 		jTabbedPane.remove(pane);
+		
+		//inform the gc that it would be a great oppurtinity to get some memory back
+		System.gc();
 	}
 
 	/* (non-Javadoc)
@@ -542,6 +545,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
