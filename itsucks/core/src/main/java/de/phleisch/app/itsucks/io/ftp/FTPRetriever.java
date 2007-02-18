@@ -48,4 +48,16 @@ public class FTPRetriever extends DataRetriever {
 		return null;
 	}
 
+	@Override
+	protected long getBytesDownloaded() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected float getProgress() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
