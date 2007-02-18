@@ -110,7 +110,7 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 		 * When a job has changed, the ordering of the list must be refreshed
 		 */
 		
-		if((Integer)pArg == Job.NOTIFICATION_AFTER_CHANGE) {
+		if((Integer)pArg == Job.NOTIFICATION_CHANGE) {
 			Job changedJob = (Job)pO;
 			boolean b;
 			
@@ -135,8 +135,11 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 			this.notifyObservers(
 					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));
 			
-		} else {
-			throw new IllegalArgumentException("Unknown notification: " + pArg);
+		} else if((Integer)pArg == Job.NOTIFICATION_PROGRESS) {
+			Job changedJob = (Job)pO;
+			
+			this.notifyObservers(
+					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));
 		}
 	}
 	
