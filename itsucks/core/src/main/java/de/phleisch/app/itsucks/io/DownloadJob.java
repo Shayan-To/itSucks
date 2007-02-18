@@ -13,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +42,8 @@ public class DownloadJob extends Job {
 	private DataProcessorManager mDataProcessorManager;
 	private DataRetrieverManager mDataRetrieverManager;
 	
-	private int mProgress = 0;
+	private float mProgress = -1;
+	private long mBytesDownloaded = -1;
 	
 	private DataRetriever mDataRetriever;
 	
@@ -79,6 +82,20 @@ public class DownloadJob extends Job {
 			mLog.warn("Protocol not supported: '" + protocol + "', job aborted. - " + this);
 			return;
 		}
+		
+		//register an listener to get the progress events
+		mDataRetriever.addObserver(new Observer() {
+
+			public void update(Observable pO, Object pArg) {
+				if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
+					mProgress = mDataRetriever.getProgress();
+					mBytesDownloaded = mDataRetriever.getBytesDownloaded();
+					
+					DownloadJob.this.setChanged();
+					DownloadJob.this.notifyObservers(NOTIFICATION_PROGRESS); // notify observers 
+				}
+			}
+		});
 		
 		mDataRetriever.setUrl(mUrl);
 		mDataRetriever.connect();
@@ -210,13 +227,22 @@ public class DownloadJob extends Job {
 	 * Returns the current download progress.
 	 * @return
 	 */
-	public int getProgress() {
+	public float getProgress() {
 		return mProgress;
+	}
+	
+	/**
+	 * Returns the count of bytes which are downloaded
+	 * @return
+	 */
+	public long getBytesDownloaded() {
+		return mBytesDownloaded;
 	}
 	
 	@Override
 	public String toString() {
 		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";
 	}
+
 
 }
