@@ -31,6 +31,10 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	private HttpMetadata mMetadata;
 	private String mUserAgent;
 	
+	private float mProgress = -1;
+	private long mBytesDownloaded = -1;
+	
+	
 	{
      	MultiThreadedHttpConnectionManager connectionManager = 
       		new MultiThreadedHttpConnectionManager();
@@ -67,7 +71,19 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		
 		Header contentLength = mGet.getResponseHeader("Content-Length");
 		if(contentLength != null) {
-			mMetadata.setContentLength(Integer.parseInt(contentLength.getValue()));	
+			
+			//replace ; chars in string
+			String data = contentLength.getValue();
+			data = data.replace(';', ' ');
+			
+			int length = -1;	
+			try {
+				length = Integer.parseInt(data);
+			} catch (NumberFormatException nex) {
+				mLog.warn("Bad contentLength String: " + data);
+			}
+			
+			mMetadata.setContentLength(length);	
 		} else {
 			mMetadata.setContentLength(-1);
 		}
@@ -120,20 +136,25 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		
 		//100k buffer
 		byte buffer[] = new byte[102400];
-		int bytesRead, allBytesRead = 0;
+		
+		mBytesDownloaded = 0; //reset bytes downloaded
+		int bytesRead;
 		int completeContentLenght = mMetadata.getContentLength();
 		
 		while((bytesRead = input.read(buffer)) > 0) {
-			allBytesRead += bytesRead;
 			
-			if(completeContentLenght > 0) {
-				updateProgress(((float)allBytesRead / (float)completeContentLenght));
-			}
 			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
 			
+			//run through the data processor list
 			for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 				DataProcessor processor = it.next();
 				processor.process(buffer, bytesRead);
+			}
+
+			//update the progress
+			mBytesDownloaded += bytesRead;
+			if(completeContentLenght > 0) {
+				updateProgress(((float)mBytesDownloaded / (float)completeContentLenght));
 			}
 		}
 		
@@ -143,10 +164,22 @@ public class AdvancedHttpRetriever extends DataRetriever {
 			processor.finish();
 		}
 		
+		//set progress to 100 % if content length was not available
+		if(completeContentLenght == -1) {
+			updateProgress(1);
+		}
+		
 	}
 
 	private void updateProgress(float pProgress) {
 		mLog.trace("Update Progress: " + pProgress);
+		
+		if(mProgress != pProgress) {
+			mProgress = pProgress;
+			this.setChanged();
+		}
+		
+		this.notifyObservers(NOTIFICATION_PROGRESS);
 	}
 
 	public HttpMetadata getMetadata() {
@@ -159,6 +192,14 @@ public class AdvancedHttpRetriever extends DataRetriever {
 
 	public void setUserAgent(String userAgent) {
 		mUserAgent = userAgent;
+	}
+
+	public long getBytesDownloaded() {
+		return mBytesDownloaded;
+	}
+
+	public float getProgress() {
+		return mProgress;
 	}
 	
 }
