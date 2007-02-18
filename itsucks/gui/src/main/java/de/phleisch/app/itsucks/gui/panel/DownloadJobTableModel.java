@@ -26,9 +26,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static final int COLUMN_PRIORITY 	= 1;
 	private static final int COLUMN_STATE 		= 2;
 	private static final int COLUMN_PROGRESS 	= 3;
-	private static final int COLUMN_URL 		= 4;
+	private static final int COLUMN_KILOBYTES 	= 4;
+	private static final int COLUMN_URL 		= 5;
 	
-	private static final int COLUMN_COUNT 		= 5;
+	private static final int COLUMN_COUNT 		= 6;
 
 	private Vector<DownloadJob> mRows;
 	private JobObserver mJobObserver;
@@ -64,6 +65,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			
 		case COLUMN_PROGRESS:
 			name = "Progress";
+			break;	
+			
+		case COLUMN_KILOBYTES:
+			name = "Downloaded";
 			break;			
 			
 		default:
@@ -144,8 +149,22 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				break;		
 	
 			case COLUMN_PROGRESS:
-				val = "-";
-				break;		
+				float progress = pJob.getProgress();
+				if(progress > -1) {
+					val = ((int)(progress * 100)) + "%";
+				} else {
+					val = "-";
+				}
+				break;
+				
+			case COLUMN_KILOBYTES:
+				long byteCount = pJob.getBytesDownloaded();
+				if(byteCount > -1) {
+					val = formatByteCount(pJob.getBytesDownloaded());
+				} else {
+					val = "-";
+				}
+				break;
 				
 			default:
 				break;
@@ -153,8 +172,31 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		return val;
 	}
 
+	private static long KB = 1024;
+	private static long MB = KB * 1024;
+	private static long GB = MB * 1024;
 	
-    private Object translateState(int pState) {
+    private String formatByteCount(long pBytesDownloaded) {
+		String result = null;
+    	
+    	if(pBytesDownloaded <= KB) {
+    		result = pBytesDownloaded + " B";
+    	} else if(pBytesDownloaded > KB && pBytesDownloaded <= MB) {
+    		result = (pBytesDownloaded / KB) + " KB";
+    	} else if(pBytesDownloaded > MB && pBytesDownloaded <= GB) {
+    		result = (pBytesDownloaded / MB) + " MB";
+    	} else if(pBytesDownloaded > GB) {
+    		result = (pBytesDownloaded / GB) + " GB";
+    	}
+    	
+    	if(result == null) {
+    		throw new IllegalStateException("Uhoh, this is a bug, please report!: " + pBytesDownloaded);
+    	}
+    		
+		return result;
+	}
+
+	private Object translateState(int pState) {
     	
     	String result;
     	
@@ -286,7 +328,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		
 		public void update(Observable pO, Object pArg) {
 			
-			if((Integer)pArg == Job.NOTIFICATION_AFTER_CHANGE) {
+			if((Integer)pArg == Job.NOTIFICATION_CHANGE) {
 				
 				DownloadJob job = (DownloadJob) pO;
 				
