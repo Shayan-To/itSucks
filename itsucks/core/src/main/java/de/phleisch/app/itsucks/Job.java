@@ -30,8 +30,19 @@ public abstract class Job extends Observable implements Cloneable {
 	public final static int STATE_ALREADY_PROCESSED = 53;
 	public final static int STATE_ERROR = 99;
 	
-	public final static int NOTIFICATION_AFTER_CHANGE = 100;
+	//All notifications which can occur when observing this class
+	/**
+	 * This type of notification will be send if something in the Job changes.
+	 * That could be: progress change, state change, priority change 
+	 */
+	public final static Integer NOTIFICATION_CHANGE = 100;
+
+	/**
+	 * This type of notification will be send if the progress has changed.
+	 */
+	public final static Integer NOTIFICATION_PROGRESS = 110;
 	
+	//the possible priority values 
 	public final static int MAX_PRIORITY = 999;
 	public final static int MIN_PRIORITY = 0;
 
@@ -119,6 +130,7 @@ public abstract class Job extends Observable implements Cloneable {
 		
 		synchronized (this) {
 			mState = pState;
+			this.setChanged();
 			this.afterChange();
 		}
 	}
@@ -147,13 +159,13 @@ public abstract class Job extends Observable implements Cloneable {
 		
 		synchronized (this) {
 			mPriority = pPriority;
+			this.setChanged();
 			this.afterChange();
 		}
 	}
 	
-	private void afterChange() {
-		this.setChanged();
-		this.notifyObservers(NOTIFICATION_AFTER_CHANGE);
+	protected void afterChange() {
+		this.notifyObservers(NOTIFICATION_CHANGE);
 	}
 
 	/**
