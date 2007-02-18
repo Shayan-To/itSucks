@@ -10,15 +10,18 @@ package de.phleisch.app.itsucks.io;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 
-public abstract class DataRetriever {
+public abstract class DataRetriever extends Observable {
 
 	protected List<DataProcessor> mDataProcessors = new ArrayList<DataProcessor>();
 	protected URL mUrl;
 	
-	//private float mPercentCompleted;
-	//private long mBytesDownloaded;
+	/**
+	 * This type of notification will be send if the progress changes.
+	 */
+	public final static Integer NOTIFICATION_PROGRESS = 100;
 	
 	public DataRetriever() {
 		super();
@@ -40,6 +43,9 @@ public abstract class DataRetriever {
 	protected abstract boolean isDataAvailable() throws Exception;
 	protected abstract void retrieve() throws Exception;
 	protected abstract void disconnect() throws Exception;
+	
+	protected abstract long getBytesDownloaded();
+	protected abstract float getProgress();
 	
 	public abstract Metadata getMetadata();
 }
