@@ -107,5 +107,15 @@ public class HttpRetriever extends DataRetriever {
 	public HttpMetadata getMetadata() {
 		return mMetadata;
 	}
+
+	@Override
+	protected long getBytesDownloaded() {
+		return -1;
+	}
+
+	@Override
+	protected float getProgress() {
+		return -1;
+	}
 	
 }
