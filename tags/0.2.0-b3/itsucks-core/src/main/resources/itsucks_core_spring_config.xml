@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean 
+		id="Dispatcher" 
+		class="de.phleisch.app.itsucks.Dispatcher" 
+		singleton="false">
+		
+		<property name="jobManager">
+			<ref bean="JobManager"/>
+		</property>
+
+		<property name="workerPool">
+			<ref bean="WorkerPool"/>
+		</property>
+	</bean>
+
+	<bean 
+		id="DispatcherThread" 
+		class="de.phleisch.app.itsucks.DispatcherThread" 
+		singleton="false"
+		parent="Dispatcher">
+	</bean>
+
+	<bean 
+		id="EventDispatcher" 
+		class="de.phleisch.app.itsucks.event.EventDispatcher" 
+		singleton="false">
+	</bean>
+
+	<bean 
+		id="JobManager" 
+		class="de.phleisch.app.itsucks.JobManager" 
+		singleton="false">
+
+		<property name="eventDispatcher">
+			<ref bean="EventDispatcher"/>
+		</property>		
+		<property name="jobList">
+			<ref bean="SimpleJobListImpl"/>
+		</property>
+		
+	</bean>
+	
+	<bean 
+		id="SimpleJobListImpl" 
+		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
+		singleton="false">
+	</bean>
+
+	<bean 
+		id="WorkerPool" 
+		class="de.phleisch.app.itsucks.WorkerPoolImpl" 
+		singleton="false">
+		
+		<!-- Pool size -->
+		<constructor-arg type="int">
+			<value>5</value>
+		</constructor-arg>
+
+	</bean>
+	
+	<bean 
+		id="DataProcessorManager" 
+		class="de.phleisch.app.itsucks.processing.DataProcessorManager" 
+		singleton="true">
+		
+		<property name="processors">
+			<list>
+				<idref bean="HttpRedirectorProcessor"/>
+				<idref bean="HtmlParser"/>
+				<idref bean="PersistenceProcessor"/>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean 
+		id="PersistenceProcessor" 
+		class="de.phleisch.app.itsucks.processing.PersistenceProcessor" 
+		singleton="false">
+	</bean>
+	
+	<bean 
+		id="HtmlParser" 
+		class="de.phleisch.app.itsucks.processing.HtmlParser" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="HttpRedirectorProcessor" 
+		class="de.phleisch.app.itsucks.processing.HttpRedirectorProcessor" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="DataRetrieverManager" 
+		class="de.phleisch.app.itsucks.io.DataRetrieverManager" 
+		singleton="true">
+		
+		<property name="retriever">
+			<map>
+				<entry>
+					<key><value>http</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
+				
+				<entry>
+					<key><value>https</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+	
+	<bean 
+		id="HttpRetriever" 
+		class="de.phleisch.app.itsucks.io.http.AdvancedHttpRetriever" 
+		singleton="false">
+		
+		<property name="userAgent">
+			<value>Mozilla/5.0</value>
+		</property>
+	</bean>
+
+	<bean 
+		id="JobFactory" 
+		class="de.phleisch.app.itsucks.JobFactory" 
+		singleton="true">
+	</bean>	
+
+<!-- 
+	<bean 
+		id="JobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.XMLJobSerialization" 
+		singleton="false">
+		
+		<property name="jobFactory">
+			<ref bean="JobFactory"/>
+		</property>
+		
+	</bean>
+ -->
+ 
+	<bean 
+		id="JobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.JAXBJobSerialization" 
+		singleton="false">
+		
+		<property name="jobFactory">
+			<ref bean="JobFactory"/>
+		</property>
+		
+	</bean>
+	
+</beans>
+
+
