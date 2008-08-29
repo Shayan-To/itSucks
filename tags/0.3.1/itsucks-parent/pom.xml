@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>ItSucks-Build</name>
+	<artifactId>itsucks-parent</artifactId>
+	<groupId>itsucks</groupId>
+	<url>http://itsucks.sf.net</url>
+	<version>0.3.1</version>
+	<packaging>pom</packaging>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<!--
+				<url>http://www.ibiblio.org/maven2</url>
+			-->
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/1</url>
+			<layout>legacy</layout>
+		</repository>
+
+	</repositories>
+	
+	<pluginRepositories>
+
+		<pluginRepository>
+		
+			<id>java.net</id>
+			<name>java.net Maven Repository</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+			
+		</pluginRepository>
+
+	</pluginRepositories>	
+
+	<modules>
+		<module>../itsucks-base</module>
+		<module>../itsucks-core</module>
+		<module>../itsucks-gui/starter</module>
+		<module>../itsucks-gui</module>
+		<module>../itsucks-console</module>
+		<module>../itsucks-vmcheck</module>
+	</modules>
+
+	<!-- dependency management -->
+	<dependencyManagement>
+
+		<dependencies>
+
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-base</artifactId>
+				<version>${project.version}</version>
+			</dependency>		
+		
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-gui</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-vmcheck</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>2.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			
+			<!-- 
+  <dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.0-alpha3</version>
+    <scope>compile</scope>
+  </dependency>
+   -->
+
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.14</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>3.8.1</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jaxb</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>jaxb</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>1.0.6</version>
+			</dependency>
+			<dependency>
+				<groupId>jaxb</groupId>
+				<artifactId>jaxb-libs</artifactId>
+				<version>1.0.6</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- Assembly Plugin settings -->
+	<build>
+
+		<plugins>
+	      <plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+	  				<descriptors>
+						<descriptor>src/assemble/src.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,23 @@
+:title Regular expression helper
+:label regexp helper
+
+The upper field "Regular Expression" takes your Regular Expression you want to test. The lower field "Test Text" takes your test text which you want to use as input for your regular expression. 
+The Option Partial Match/Full Match change if your Regular Expression must match the complete text or only a part of it. 
+
+Here is an example:
+:div code
+Regular Expression: //Cat//~~
+Test Text: //DogCatMouse//
+:/div
+
+Partial Match Result -> MATCH (Finds the "Cat" part in "DogCatMouse")~~
+Full Match Result -> NO MATCH (The regexp "Cat" doesn't match on the complete text)
+
+Here is another example:
+:div code
+Regular Expression: //.*Cat.*//~~
+Test Text: //DogCatMouse//
+:/div
+
+Partial Match Result -> MATCH (Finds the "Cat" part in "DogCatMouse")~~
+Full Match Result -> MATCH (The wildcards .* matches any character before and after the "Cat" part)
