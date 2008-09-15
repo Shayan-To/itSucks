@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>itsucks</groupId>
+		<artifactId>itsucks-parent</artifactId>
+		<version>0.3.1</version>
+		<relativePath>../itsucks-parent</relativePath>
+	</parent>
+
+	<artifactId>itsucks-gui</artifactId>
+	<groupId>itsucks</groupId>
+	<packaging>jar</packaging>
+	<name>ItSucks-GUI</name>
+
+	<build>
+
+		<!-- include the source code - ->
+			<resources>
+			<resource>
+			<directory>src/main/java</directory>
+			<targetPath>/src</targetPath>
+			<includes>
+			<include>**/*.java</include>
+			</includes>
+			</resource>
+			
+			<!- -
+			<resource>
+			<directory>resources</directory>
+			<targetPath>/</targetPath>
+			<includes>
+			<include>**/*</include>
+			</includes>
+			</resource> 
+			</resources> -->
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+
+						<manifest>
+							<mainClass>
+								de.phleisch.app.itsucks.gui.Main
+							</mainClass>
+							<packageName>itsucks-gui</packageName>
+							<addClasspath>true</addClasspath>
+							<addExtensions />
+							<!-- <classpathPrefix>lib/</classpathPrefix>  -->
+						</manifest>
+
+						<manifestEntries>
+							<SplashScreen-Image>itsucks_splash.jpg</SplashScreen-Image>
+							<Class-Path>itsucks-help.jar</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>itsucks</groupId>
+			<artifactId>itsucks-core</artifactId>
+		</dependency>
+
+        <dependency>
+          <groupId>de.phleisch</groupId>
+          <artifactId>itsucks-help</artifactId>
+          <version>0.1</version>
+          <scope>system</scope>
+          <systemPath>${basedir}/lib/itsucks-help.jar</systemPath>
+       	</dependency>
+
+		<!-- 
+			<dependency>
+			<groupId>jgoodies</groupId>
+			<artifactId>looks</artifactId>
+			<version>1.2.2</version>
+			</dependency>
+		-->
+		<dependency>
+			<groupId>javax.help</groupId>
+			<artifactId>javahelp</artifactId>
+			<version>2.0.02</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>looks</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.swing-layout</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+	</dependencies>
+</project>
