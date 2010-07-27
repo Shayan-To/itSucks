@@ -8,10 +8,10 @@
 package de.phleisch.app.itsucks.processing.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -22,7 +22,7 @@ import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 public class DataProcessorManager {
 
-	private Collection<Provider<DataProcessor>> mProcessors; 
+	private SortedMap<Integer, Provider<DataProcessor>> mProcessors; 
 	
 	public DataProcessorManager() {
 		super();
@@ -30,20 +30,14 @@ public class DataProcessorManager {
 	
 	@Inject
 	public void setProcessors(Map<Integer, Provider<DataProcessor>> pList) {
-		//TODO, use priority
-		mProcessors = new ArrayList<Provider<DataProcessor>>(pList.values());
-	}
-	
-	//@Inject
-	public void setProcessors2(Set<DataProcessor> pList) {
-		System.out.println("Test");
+		mProcessors = new TreeMap<Integer, Provider<DataProcessor>>(pList);
 	}
 
 	private List<DataProcessor> getProcessorsForJob(Job pJob) {
 		
 		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
 		
-		for (Provider<DataProcessor> provider : mProcessors) {
+		for (Provider<DataProcessor> provider : mProcessors.values()) {
 			DataProcessor processor = provider.get();
 			if(processor.supports(pJob)) {
 				result.add(processor);
