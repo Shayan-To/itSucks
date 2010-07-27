@@ -13,9 +13,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.core.Dispatcher;
@@ -25,7 +24,7 @@ import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl;
+import de.phleisch.app.itsucks.job.JobManager;
 
 /**
  * The dispatcher is the central class to start an job.
@@ -35,15 +34,12 @@ import de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl;
  * @author olli
  *
  */
-public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
-	
-	@SuppressWarnings("unused")
-	private ApplicationContext mSpringApplicationContext;
+public class DispatcherImpl implements Dispatcher {
 	
 	private final Object SYNC_LOCK = new Object();
 	private String mName;
 	private EventContext mContext;
-	private FilterJobManagerImpl mJobManager;
+	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
 	private EventDispatcher mEventManager;
 	
@@ -245,11 +241,12 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#getJobManager()
 	 */
-	public FilterJobManagerImpl getJobManager() {
+	public JobManager getJobManager() {
 		return mJobManager;
 	}
 
-	public void setFilterJobManager(FilterJobManagerImpl pJobManager) {
+	@Inject
+	public void setFilterJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
 		mJobManager.setContext(mContext);
 	}
@@ -261,12 +258,9 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		return mWorkerPool;
 	}
 
+	@Inject
 	public void setWorkerPool(WorkerPool pWorkerPool) {
 		mWorkerPool = pWorkerPool;
-	}
-	
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mSpringApplicationContext = pContext;
 	}
 
 	/* (non-Javadoc)
@@ -283,6 +277,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		return mJobManager.getContext();
 	}
 	
+	@Inject
 	public void setContext(EventContext pContext) {
 		mContext = pContext;
 	}
@@ -335,6 +330,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		mJobManager.addJobFilter(pJobFilter);
 	}
 	
+	@Inject
 	public void setEventManager(EventDispatcher pEventManager) {
 		
 		if(mContext == null) {

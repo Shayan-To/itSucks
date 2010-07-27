@@ -4,9 +4,12 @@ import java.io.File;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import de.phleisch.app.itsucks.BaseModule;
+import de.phleisch.app.itsucks.constants.CoreModule;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
@@ -29,6 +32,14 @@ public class ConsoleMain {
 		
 		File serializedJob = new File(pArgs[0]);
 		
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
+
+		/*
+		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 
@@ -36,6 +47,8 @@ public class ConsoleMain {
 
 		JobSerialization serializationManager = (JobSerialization) context
 				.getBean("JobSerialization");
+				*/
+	    JobSerialization serializationManager = injector.getInstance(JobSerialization.class);
 
 		SerializableJobPackage jobList = null;
 		try {

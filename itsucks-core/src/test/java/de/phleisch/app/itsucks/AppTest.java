@@ -16,7 +16,11 @@ import junit.framework.TestSuite;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.constants.CoreModule;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
@@ -52,10 +56,19 @@ public class AppTest extends TestCase {
 
 	public void testContentFilter() throws Exception {
 		
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
+	    DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
+		
+	    /*
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 		
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+		*/
 
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setMaxRecursionDepth(1);
