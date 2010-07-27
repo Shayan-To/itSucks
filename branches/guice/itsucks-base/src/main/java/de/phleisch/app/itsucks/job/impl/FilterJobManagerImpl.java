@@ -13,6 +13,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.inject.Inject;
+
 import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventDispatcher;
@@ -129,6 +131,7 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#setJobList(de.phleisch.app.itsucks.job.JobList)
 	 */
+	@Inject
 	public void setJobList(JobList pJobList) {
 		
 		if(mJobList != null) {
@@ -162,6 +165,7 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		return mJobFilterChain;
 	}
 
+	@Inject
 	public void setJobFilterChain(JobFilterChain pJobFilterChain) {
 		mJobFilterChain = pJobFilterChain;
 	}

@@ -8,52 +8,43 @@
 package de.phleisch.app.itsucks.processing.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
-public class DataProcessorManager implements ApplicationContextAware {
+public class DataProcessorManager {
 
-	private ApplicationContext mContext;
-	private List<String> mProcessors; 
+	private Collection<Provider<DataProcessor>> mProcessors; 
 	
 	public DataProcessorManager() {
 		super();
 	}
 	
-	public void setProcessors(List<String> pList) {
-		mProcessors = new ArrayList<String>(pList);
+	@Inject
+	public void setProcessors(Map<Integer, Provider<DataProcessor>> pList) {
+		//TODO, use priority
+		mProcessors = new ArrayList<Provider<DataProcessor>>(pList.values());
 	}
-
-	public List<DataProcessor> getProcessorsForProtocol(String pProtocol, String pMimetype) {
-		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
-		
-		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
-			String beanId = it.next();
-			result.add((DataProcessor) mContext.getBean(beanId));
-		}
-		return result;
-	}
-
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mContext = pContext;
+	
+	//@Inject
+	public void setProcessors2(Set<DataProcessor> pList) {
+		System.out.println("Test");
 	}
 
 	private List<DataProcessor> getProcessorsForJob(Job pJob) {
 		
 		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
 		
-		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
-			String beanId = it.next();
-			DataProcessor processor = (DataProcessor) mContext.getBean(beanId);
-			
+		for (Provider<DataProcessor> provider : mProcessors) {
+			DataProcessor processor = provider.get();
 			if(processor.supports(pJob)) {
 				result.add(processor);
 			}
