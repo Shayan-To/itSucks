@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.gui.main.helper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
@@ -24,8 +25,7 @@ public class DispatcherHelper {
 	}
 
 	public DispatcherThread createDispatcher(SerializableJobPackage pJobList) {
-		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
-			.getApplicationContext().getBean("DispatcherThread");
+		DispatcherThread dispatcher = GuiceContextSingelton.getInjector().getInstance(DispatcherThread.class);
 
 		DispatcherBuilder.buildDispatcherFromJobPackage(dispatcher, pJobList);
 		
