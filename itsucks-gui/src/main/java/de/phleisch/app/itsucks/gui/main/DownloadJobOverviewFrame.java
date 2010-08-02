@@ -17,15 +17,14 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
-import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.core.impl.DispatcherList.DispatcherListEvent;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
@@ -550,11 +549,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	protected void saveConfiguration() {
 		
-		ApplicationContext applicationContext = SpringContextSingelton
-			.getApplicationContext();
-		
-		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
-			.getBean("ApplicationConfiguration");
+		ApplicationConfiguration configuration = GuiceContextSingelton.getInjector().getInstance(ApplicationConfiguration.class);
 		
 		configuration.setValue("title", ApplicationConstants.APPLICATION_TITLE);
 		configuration.setValue("version",
