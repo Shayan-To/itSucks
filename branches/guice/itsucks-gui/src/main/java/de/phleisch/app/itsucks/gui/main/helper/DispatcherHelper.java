@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.GuiceContextSingelton;
-import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
