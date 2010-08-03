@@ -14,7 +14,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
-import de.phleisch.app.itsucks.constants.CoreModule;
 
 public class GuiceContextSingelton {
 

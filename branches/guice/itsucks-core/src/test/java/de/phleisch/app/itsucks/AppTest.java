@@ -17,7 +17,6 @@ import junit.framework.TestSuite;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.CoreModule;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;

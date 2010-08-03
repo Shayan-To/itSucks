@@ -13,7 +13,6 @@ import junit.framework.TestCase;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.CoreModule;
 import de.phleisch.app.itsucks.core.impl.DispatcherBatch;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 
