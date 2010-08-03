@@ -9,7 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.phleisch.app.itsucks.BaseModule;
-import de.phleisch.app.itsucks.constants.CoreModule;
+import de.phleisch.app.itsucks.CoreModule;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;

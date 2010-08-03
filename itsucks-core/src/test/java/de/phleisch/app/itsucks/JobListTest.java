@@ -14,7 +14,6 @@ import junit.framework.TestCase;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.CoreModule;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.job.Job;

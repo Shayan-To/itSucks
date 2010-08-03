@@ -17,6 +17,8 @@ import java.util.HashSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.inject.Inject;
+
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
@@ -155,6 +157,7 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor {
 		);
 	}
 
+	@Inject
 	public void setDownloadJobFactory(DownloadJobFactory pDownloadJobFactory) {
 		mDownloadJobFactory = pDownloadJobFactory;
 	}

@@ -6,7 +6,7 @@
  * Created on 27.07.2010
  */
 
-package de.phleisch.app.itsucks.constants;
+package de.phleisch.app.itsucks;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +18,8 @@ import com.google.inject.multibindings.MapBinder;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
+import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
+import de.phleisch.app.itsucks.configuration.impl.PropertyFileConfigurationImpl;
 import de.phleisch.app.itsucks.job.download.http.impl.HttpRetrieverFactory;
 import de.phleisch.app.itsucks.job.download.impl.DataRetrieverFactory;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
@@ -42,6 +44,14 @@ public class CoreModule extends AbstractModule {
 		//load default properties
 		loadProperties(binder());
 
+		//register retriever factories for protocols 
+		MapBinder<String, DataRetrieverFactory> mapbinder
+			= MapBinder.newMapBinder(binder(), String.class, DataRetrieverFactory.class);
+		mapbinder.addBinding("http").to(HttpRetrieverFactory.class);
+		mapbinder.addBinding("https").to(HttpRetrieverFactory.class);
+		bind(DownloadJobFactory.class);
+		
+		//build processing chain
 		MapBinder<Integer, DataProcessor> processorBinder
 			= MapBinder.newMapBinder(binder(), Integer.class, DataProcessor.class);
 		processorBinder.addBinding(10).to(FilterFileSizeProcessor.class);
@@ -50,44 +60,18 @@ public class CoreModule extends AbstractModule {
 		processorBinder.addBinding(40).to(HtmlParser.class);
 		processorBinder.addBinding(50).to(PersistenceProcessor.class);
 
-		//bind(DataProcessorManager.class);
-		
-		MapBinder<String, DataRetrieverFactory> mapbinder
-			= MapBinder.newMapBinder(binder(), String.class, DataRetrieverFactory.class);
-		mapbinder.addBinding("http").to(HttpRetrieverFactory.class);
-		mapbinder.addBinding("https").to(HttpRetrieverFactory.class);
-
-		bind(DownloadJobFactory.class);
-		
-		
-		
+		//register jaxb serialization converter 
 		Multibinder<BeanConverter> beanConverterBinder = 
 			Multibinder.newSetBinder(binder(), BeanConverter.class);
 		beanConverterBinder.addBinding().to(DownloadJobConverter.class);
 		beanConverterBinder.addBinding().to(DispatcherConfigurationConverter.class);
 		beanConverterBinder.addBinding().to(HttpRetrieverConfigurationConverter.class);
 		beanConverterBinder.addBinding().to(JobManagerConfigurationConverter.class);
-		
 		bind(JobSerialization.class).to(JAXBJobSerialization.class);
-/*
 		
-		<bean
-			id="ApplicationConfiguration"
-			class="de.phleisch.app.itsucks.configuration.impl.PropertyFileConfigurationImpl"
-			singleton="true">
-			
-			<property name="comment">
-				<value>ItSucks Configuration</value>
-			</property>
-			<property name="defaultConfigurationPath">
-				<value>/defaultConfiguration.properties</value>
-			</property>
-			<property name="saveConfigurationPath">
-				<value>$USER_HOME$/.itsucks/itsucks.properties</value>
-			</property>
-			
-		</bean>
-		*/
+		//application configuration reader/saver
+		bind(ApplicationConfiguration.class).to(PropertyFileConfigurationImpl.class);
+
 	}
 
 	private void loadProperties(Binder binder) {

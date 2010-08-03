@@ -34,20 +34,20 @@ public class BaseModule extends AbstractModule {
 		//load default properties
 		loadProperties(binder());
 		
-		bind(Dispatcher.class).to(DispatcherImpl.class);
-		bind(DispatcherThread.class);
-		
+		//base
 		bind(Context.class).to(EventContext.class);
-		
 		bind(EventDispatcher.class).to(AsynchronEventDispatcherImpl.class);
 
+		//job
 		bind(JobFilterChain.class).to(JobFilterChainImpl.class);
 		bind(JobManager.class).to(CleanJobManagerImpl.class);
-
 		bind(JobList.class).to(SimpleJobListImpl.class);
-		
 		bind(WorkerPool.class).to(WorkerPoolImpl.class);
+		
+		bind(Dispatcher.class).to(DispatcherImpl.class);
+		bind(DispatcherThread.class);
 
+		//init empty processor chain
 		MapBinder<Integer, DataProcessor> processorBinder
 			= MapBinder.newMapBinder(binder(), Integer.class, DataProcessor.class);
 		bind(DataProcessorManager.class);
