@@ -38,10 +38,8 @@ public class DispatcherImpl implements Dispatcher {
 	
 	private final Object SYNC_LOCK = new Object();
 	private String mName;
-	private EventContext mContext;
 	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
-	private EventDispatcher mEventManager;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -82,9 +80,11 @@ public class DispatcherImpl implements Dispatcher {
 			}
 		}
 		
+		EventDispatcher eventManager = getEventManager();
+		
 		mLog.info("Start processing jobs");
-		mEventManager.init();
-		mEventManager.fireEvent(
+		eventManager.init();
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_START, this));
 		
 		startup();
@@ -143,9 +143,9 @@ public class DispatcherImpl implements Dispatcher {
 		setRunning(false);
 		
 		mLog.info("Finished processing jobs");
-		mEventManager.fireEvent(
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_FINISH, this));
-		mEventManager.shutdown();
+		eventManager.shutdown();
 	}
 
 	/**
@@ -165,7 +165,9 @@ public class DispatcherImpl implements Dispatcher {
 
 	protected void doPauseLoop() {
 		
-		mEventManager.fireEvent(
+		EventDispatcher eventManager = getEventManager();
+		
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_PAUSE, this));
 		
 		try {
@@ -181,7 +183,7 @@ public class DispatcherImpl implements Dispatcher {
 		} catch (InterruptedException e) {
 			mLog.warn("Interrupted in pause loop");
 		} finally {
-			mEventManager.fireEvent(
+			eventManager.fireEvent(
 					new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE, this));
 		}
 	}
@@ -230,7 +232,6 @@ public class DispatcherImpl implements Dispatcher {
 	}
 	
 	private void startup() {
-		mJobManager.setContext(mContext);
 		mWorkerPool.initialize();
 	}
 	
@@ -248,7 +249,6 @@ public class DispatcherImpl implements Dispatcher {
 	@Inject
 	public void setFilterJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
-		mJobManager.setContext(mContext);
 	}
 
 	/* (non-Javadoc)
@@ -267,7 +267,7 @@ public class DispatcherImpl implements Dispatcher {
 	 * @see de.phleisch.app.itsucks.Dispatcher#getEventManager()
 	 */
 	public EventDispatcher getEventManager() {
-		return mEventManager;
+		return getContext().getEventDispatcher();
 	}
 	
 	/* (non-Javadoc)
@@ -275,11 +275,6 @@ public class DispatcherImpl implements Dispatcher {
 	 */
 	public EventContext getContext() {
 		return mJobManager.getContext();
-	}
-	
-	@Inject
-	public void setContext(EventContext pContext) {
-		mContext = pContext;
 	}
 	
 	/* (non-Javadoc)
@@ -328,17 +323,6 @@ public class DispatcherImpl implements Dispatcher {
 	 */
 	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
-	}
-	
-	@Inject
-	public void setEventManager(EventDispatcher pEventManager) {
-		
-		if(mContext == null) {
-			throw new IllegalStateException("Context is not set!");
-		}
-		
-		mEventManager = pEventManager;
-		mContext.setEventDispatcher(mEventManager);
 	}
 
 }

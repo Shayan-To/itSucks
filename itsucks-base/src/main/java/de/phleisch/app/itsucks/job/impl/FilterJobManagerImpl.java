@@ -170,9 +170,11 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		mJobFilterChain = pJobFilterChain;
 	}
 
+	@Inject
 	public void setContext(EventContext pContext) {
 		mGroupContext = pContext;
 		mEventDispatcher = mGroupContext.getEventDispatcher();
+		//FIXME hier bekommt die filter chain den Context, ist aber unter umstaenden noch nicht injected!
 		mJobFilterChain.setContext(mGroupContext);
 	}
 	

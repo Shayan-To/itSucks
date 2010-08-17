@@ -13,6 +13,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
@@ -33,6 +36,8 @@ public class DownloadJobQueueOverviewPanel extends JPanel {
 	private static final long serialVersionUID = 2406761069696757338L;
 	private transient Dispatcher mJobDispatcher;
 	private transient int mDispatcherId;
+	
+	private static Log mLog = LogFactory.getLog(DownloadJobQueueOverviewPanel.class);
 	
 	private EventObserver mEventObserver = new JobEventObserver();
 
@@ -74,15 +79,16 @@ public class DownloadJobQueueOverviewPanel extends JPanel {
 
 		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pInitialState);
 		for (DownloadJobStatusTablePanel panel : panels) {
+			mLog.debug("Add job " + pJob.getId() + " to " + panel.getName());
 			panel.addDownloadJob(pJob);
 		}
 	}
 
 	private void removeDownloadJob(UrlDownloadJob pJob) {
 
-		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob
-				.getState());
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob.getState());
 		for (DownloadJobStatusTablePanel panel : panels) {
+			mLog.debug("Remove job " + pJob.getId() + " from " + panel.getName());
 			panel.removeDownloadJob(pJob);
 		}
 	}
@@ -94,12 +100,14 @@ public class DownloadJobQueueOverviewPanel extends JPanel {
 
 		for (DownloadJobStatusTablePanel oldPanel : oldPanels) {
 			if (!newPanels.contains(oldPanel)) {
+				mLog.debug("(Move) Remove job " + pJob.getId() + " from " + oldPanel.getName());
 				oldPanel.removeDownloadJob(pJob);
 			}
 		}
 
 		for (DownloadJobStatusTablePanel newPanel : newPanels) {
 			if (!oldPanels.contains(newPanel)) {
+				mLog.debug("(Move) Add job " + pJob.getId() + " to " + newPanel.getName());
 				newPanel.addDownloadJob(pJob);
 			}
 		}
