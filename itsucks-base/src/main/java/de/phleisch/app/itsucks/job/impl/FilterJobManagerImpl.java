@@ -10,6 +10,8 @@ package de.phleisch.app.itsucks.job.impl;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -174,7 +176,11 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	public void setContext(EventContext pContext) {
 		mGroupContext = pContext;
 		mEventDispatcher = mGroupContext.getEventDispatcher();
-		//FIXME hier bekommt die filter chain den Context, ist aber unter umstaenden noch nicht injected!
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
+		//propagate group context to filter chain
 		mJobFilterChain.setContext(mGroupContext);
 	}
 	
