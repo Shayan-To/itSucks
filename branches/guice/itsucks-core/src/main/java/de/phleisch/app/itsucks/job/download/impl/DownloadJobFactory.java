@@ -24,7 +24,7 @@ import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
  * @author olli
  *
  */
-public class DownloadJobFactory /*implements ApplicationContextAware*/ {
+public class DownloadJobFactory {
 
 	private DataProcessorManager mDataProcessorManager;
 	private DataRetrieverManager mDataRetrieverManager;

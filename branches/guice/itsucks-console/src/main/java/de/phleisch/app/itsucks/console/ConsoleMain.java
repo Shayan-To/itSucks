@@ -5,11 +5,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import de.phleisch.app.itsucks.BaseModule;
-import de.phleisch.app.itsucks.CoreModule;
+import de.phleisch.app.itsucks.ItSucksBuilder;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
@@ -25,30 +21,17 @@ public class ConsoleMain {
 	 */
 	public static void main(String[] pArgs) {
 
-		if(pArgs.length == 0) {
+		if(pArgs.length != 1) {
 			showUsage();
 			System.exit(1);
 		}
 		
 		File serializedJob = new File(pArgs[0]);
 		
-	    Injector injector = Guice.createInjector(
-	    		new BaseModule(), 
-	    		new CoreModule());
+		ItSucksBuilder builder = new ItSucksBuilder();
+	    Dispatcher dispatcher = builder.buildDispatcher();
 
-	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
-
-		/*
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-
-		Dispatcher dispatcher = (Dispatcher) context.getBean("DispatcherWithClean");
-
-		JobSerialization serializationManager = (JobSerialization) context
-				.getBean("JobSerialization");
-				*/
-	    JobSerialization serializationManager = injector.getInstance(JobSerialization.class);
+	    JobSerialization serializationManager = builder.getInstance(JobSerialization.class);
 
 		SerializableJobPackage jobList = null;
 		try {
