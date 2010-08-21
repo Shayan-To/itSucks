@@ -55,7 +55,7 @@ public class HtmlParser extends AbstractDataParser implements DataProcessor {
 			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
 			
 			if(metadata instanceof HttpMetadata &&
-					((HttpMetadata)metadata).getContentType().startsWith("text/html")) {
+					((HttpMetadata)metadata).getContentType().startsWith("text/")) {
 				return true;
 			}
 		}
