@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
-import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.MapBinder;
 import com.google.inject.name.Names;
 
@@ -27,14 +26,10 @@ import de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl;
 import de.phleisch.app.itsucks.job.impl.SimpleJobListImpl;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
-import de.phleisch.app.itsucks.util.PostConstructListener;
 
 public class BaseModule extends AbstractModule {
 	@Override 
 	protected void configure() {
-
-		//register PostConstructorListener
-		bindListener(Matchers.any(),new PostConstructListener());
 		
 		//load default properties
 		loadProperties(binder());
@@ -53,6 +48,7 @@ public class BaseModule extends AbstractModule {
 		bind(DispatcherThread.class);
 
 		//init empty processor chain
+		@SuppressWarnings("unused")
 		MapBinder<Integer, DataProcessor> processorBinder
 			= MapBinder.newMapBinder(binder(), Integer.class, DataProcessor.class);
 		bind(DataProcessorManager.class);

@@ -51,11 +51,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private Map<Dispatcher, EventObserver> mEventObserver = new HashMap<Dispatcher, EventObserver>();
 
 	private DispatcherList mDispatcherList;
+	DispatcherHelper mDispatcherHelper;
 
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
 		mDispatcherList = new DispatcherList();
 		mDispatcherList.registerObserver(this);
+		mDispatcherHelper = new DispatcherHelper();
 
 		initComponents();
 		registerHelp();
@@ -72,14 +74,12 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	public void addDownload(SerializableJobPackage pJobList) {
 
-		DispatcherHelper helper = new DispatcherHelper();
-
-		DispatcherThread dispatcher = helper.createDispatcher(pJobList);
+		DispatcherThread dispatcher = mDispatcherHelper.createDispatcher(pJobList);
 
 		//add the dispatcher to the list, the panel will be added by the event
 		mDispatcherList.addDispatcher(dispatcher);
 
-		helper.startDispatcher(dispatcher);
+		mDispatcherHelper.startDispatcher(dispatcher);
 
 	}
 

@@ -13,10 +13,9 @@ import org.apache.commons.logging.LogFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
-
 public class GuiceContextSingelton {
 
+	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(GuiceContextSingelton.class);
 	
 	private boolean mInitialized = false;
